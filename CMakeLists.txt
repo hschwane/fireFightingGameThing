@@ -53,11 +53,12 @@ add_executable(fireFightingGameThing)
 # add general source files
 target_sources(fireFightingGameThing PRIVATE
         "src/main.cpp"
+        "src/engine/SpriteRenderer.cpp"
         )
 
 # add definitions
 set(FFGT_PROJECT_SHADER_PATH "${CMAKE_CURRENT_LIST_DIR}/shader")
-set(FFGT_PROJECT_RESOURCE_PATH "${CMAKE_CURRENT_LIST_DIR}/shader")
+set(FFGT_PROJECT_RESOURCE_PATH "${CMAKE_CURRENT_LIST_DIR}/resources")
 target_compile_definitions(fireFightingGameThing PRIVATE PROJECT_SHADER_PATH="${FFGT_PROJECT_SHADER_PATH}/")
 target_compile_definitions(fireFightingGameThing PRIVATE PROJECT_RESOURCE_PATH="${FFGT_PROJECT_RESOURCE_PATH}/")
 
