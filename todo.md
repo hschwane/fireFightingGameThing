@@ -7,3 +7,4 @@
 
 ## game objects
 - add debug menue
+- add default positions

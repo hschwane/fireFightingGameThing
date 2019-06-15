@@ -48,11 +48,10 @@ int main()
 
     SpriteRenderer::setProjection(glm::mat4(1));
 
-    // load a textures
-    Texture test(TextureFileType::eU8, PROJECT_RESOURCE_PATH "car_test01.png");
     Sampler sampler;
     sampler.set(GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
     sampler.set(GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    sampler.bind(GL_TEXTURE0);
 
     // setup camera
     Camera2D camera(mainWnd.getFramebufferSize().x / mainWnd.getFramebufferSize().y, 0.1, 0.4);
