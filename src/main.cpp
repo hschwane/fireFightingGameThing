@@ -4,6 +4,7 @@
 
 #include "engine/SpriteRenderer.h"
 #include "engine/Camera2D.h"
+#include "gameLogic/GameObject.h"
 
 void addGeneralKeys()
 {
@@ -67,24 +68,33 @@ int main()
     float rot =0;
     bool showCameraWindow = true;
 
+    // setup level
+    std::vector<std::unique_ptr<GameObject>> objects;
+
+    objects.emplace_back(std::make_unique<GameObject>(PROJECT_RESOURCE_PATH "Background.png",glm::vec2(80.0f,80.0f)));
+    objects.emplace_back(std::make_unique<GameObject>(PROJECT_RESOURCE_PATH "car_test01.png",glm::vec2(1.0f,2.8f)));
+
+    camera.setMoveBoundary({-40,-40,40,40});
+    camera.setZoomBoundry({0,100});
+
     // start main loop
     while(mainWnd.frameEnd(), Input::update(), mainWnd.frameBegin())
     {
         camera.update();
         SpriteRenderer::setProjection(camera.getProj());
-        SpriteRenderer::drawSprite(test,size,pos,glm::radians(rot));
+
+        for(auto &object : objects)
+        {
+            object->update();
+        }
+
+        for(auto &object : objects)
+        {
+            object->draw();
+        }
 
         // im gui debug window
         {
-            using namespace ImGui;
-            Begin("FFGT");
-                SliderFloat2("position",&pos.x,1,0);
-                SliderFloat("rotation",&rot,0,360);
-                SliderFloat2("size",&size.x,0,1);
-
-                Separator();
-                Checkbox("show camera window", &showCameraWindow);
-            End();
         }
 
         if(showCameraWindow)

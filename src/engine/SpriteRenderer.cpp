@@ -44,7 +44,7 @@ void drawSprite(mpu::gph::Texture& tex, const glm::vec2& size, const glm::vec2& 
     glm::mat4 model(1);
     model =  glm::translate(model, glm::vec3(pos,0.0f));
     model =  glm::rotate(model, rotation,glm::vec3{0.0f,0.0f,1.0f});
-    model = glm::scale(model, glm::vec3(size,0.0f));
+    model = glm::scale(model, glm::vec3(size/2,0.0f));
 //
     // setup shader
     shader().use();
