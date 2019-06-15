@@ -3,6 +3,7 @@
 #include <mpUtils/mpGraphics.h>
 
 #include "engine/SpriteRenderer.h"
+#include "engine/Camera2D.h"
 
 void addGeneralKeys()
 {
@@ -29,7 +30,6 @@ int main()
 
     // setup main window
     Window mainWnd(600,600,"FireFightingGameThing");
-    mainWnd.addSizeCallback([](int x,int y){ glViewport(0,0,x,y);});
 
     // setup gui
     ImGui::create(mainWnd);
@@ -43,36 +43,52 @@ int main()
 
     // glsettings
     glClearColor(0.2,0.3,0.5,1.0);
+    glDisable(GL_DEPTH_TEST);
 
-    SpriteRenderer::setView(glm::mat4(1));
     SpriteRenderer::setProjection(glm::mat4(1));
 
-    // load a texture
+    // load a textures
     Texture test(TextureFileType::eU8, PROJECT_RESOURCE_PATH "car_test01.png");
     Sampler sampler;
     sampler.set(GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
     sampler.set(GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 
-    // varables
+    // setup camera
+    Camera2D camera(mainWnd.getFramebufferSize().x / mainWnd.getFramebufferSize().y, 0.1, 0.4);
+    mainWnd.addSizeCallback([&camera](int x,int y)
+    {
+        camera.setAspect(1.0f * x / y);
+        glViewport(0,0,x,y);
+    });
+
+    // varibles
     glm::vec2 size{0.1,0.28};
     glm::vec2 pos{0,0};
     float rot =0;
+    bool showCameraWindow = true;
 
     // start main loop
     while(mainWnd.frameEnd(), Input::update(), mainWnd.frameBegin())
     {
+        camera.update();
+        SpriteRenderer::setProjection(camera.getProj());
         SpriteRenderer::drawSprite(test,size,pos,glm::radians(rot));
 
         // im gui debug window
         {
             using namespace ImGui;
             Begin("FFGT");
-
                 SliderFloat2("position",&pos.x,1,0);
                 SliderFloat("rotation",&rot,0,360);
                 SliderFloat2("size",&size.x,0,1);
+
+                Separator();
+                Checkbox("show camera window", &showCameraWindow);
             End();
         }
+
+        if(showCameraWindow)
+            camera.drawGui();
     }
 
 }

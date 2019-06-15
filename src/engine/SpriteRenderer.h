@@ -25,7 +25,6 @@
 namespace SpriteRenderer {
 //--------------------
 
-void setView(const glm::mat4& view);
 void setProjection(const glm::mat4& proj);
 void drawSprite(mpu::gph::Texture& tex, const glm::vec2& size, const glm::vec2& pos, float rotation);
 

@@ -33,11 +33,6 @@ namespace {
     };
 }
 
-void setView(const glm::mat4& view)
-{
-    shader().uniformMat4("view",view);
-}
-
 void setProjection(const glm::mat4& proj)
 {
     shader().uniformMat4("proj",proj);
