@@ -53,9 +53,6 @@ add_executable(fireFightingGameThing)
 # add general source files
 target_sources(fireFightingGameThing PRIVATE
         "src/main.cpp"
-        "src/engine/SpriteRenderer.cpp"
-        "src/engine/Camera2D.cpp"
-        "src/gameLogic/GameObject.cpp"
         )
 
 # add definitions
