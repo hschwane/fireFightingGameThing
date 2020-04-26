@@ -1,4 +1,3 @@
-#include <iostream>
 #include <mpUtils/mpUtils.h>
 #include <mpUtils/mpGraphics.h>
 
@@ -17,6 +16,17 @@ void addGeneralKeys()
     ip::mapKeyToInput("Quit",GLFW_KEY_ESCAPE);
 }
 
+void addDebugCameraKeys()
+{
+    using namespace mpu::gph;
+    namespace ip = mpu::gph::Input;
+
+    ip::mapScrollToInput("DebugCameraZoom");
+    ip::mapKeyToInput("DebugCameraMoveDownUp",GLFW_KEY_W,ip::ButtonBehavior::whenDown,ip::AxisBehavior::positive);
+    ip::mapKeyToInput("DebugCameraMoveDownUp",GLFW_KEY_S,ip::ButtonBehavior::whenDown,ip::AxisBehavior::negative);
+    ip::mapKeyToInput("DebugCameraMoveLeftRight",GLFW_KEY_D,ip::ButtonBehavior::whenDown,ip::AxisBehavior::positive);
+    ip::mapKeyToInput("DebugCameraMoveLeftRight",GLFW_KEY_A,ip::ButtonBehavior::whenDown,ip::AxisBehavior::negative);
+}
 
 int main()
 {
@@ -26,13 +36,29 @@ int main()
     using namespace mpu::gph;
 
     // setup main window
-    Window mainWnd(600,600,"FireFightingGameThing");
+    Window mainWnd(10,10,"FireFightingGameThing");
+    addGeneralKeys();
 
-    // setup gui
+    // setup imgui
     ImGui::create(mainWnd);
 
-    // setup keybindings
-    addGeneralKeys();
+    // setup camera
+    Camera2D debugCamera({0,0},1.0,"DebugCamera");
+    debugCamera.addInputs();
+    addDebugCameraKeys();
+
+    // setup 2d renderer
+    Renderer2D renderer;
+    renderer.setSamplingLinear(true,true);
+
+    // handle window resizing
+    mainWnd.addFBSizeCallback([&](int w, int h)
+    {
+        glViewport(0,0,w,h);
+        float aspect = float(w)/h;
+        renderer.setProjection(-1*aspect,1*aspect,-1,1);
+    });
+    mainWnd.setSize(800,800); // trigger resize callback to set projection
 
     // background color
     glClearColor(0.2,0.3,0.5,1.0);
@@ -41,6 +67,7 @@ int main()
     while(mainWnd.frameEnd(), Input::update(), mainWnd.frameBegin())
     {
 
+        renderer.render();
     }
 
 }
