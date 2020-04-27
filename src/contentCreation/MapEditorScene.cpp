@@ -15,7 +15,7 @@
 //--------------------
 #include "MapEditorScene.h"
 #include "App.h"
-#include "layer.h"
+#include "rendering/mapRendering.h"
 //--------------------
 
 
@@ -67,13 +67,7 @@ void MapEditorScene::update()
 void MapEditorScene::draw()
 {
     App::getRenderer().setView(m_camera.viewMatrix());
-
-    glm::uvec2 id{0,0};
-    for(id.y = 0; id.y<activeMap.getSize().y; id.y++)
-        for(id.x = 0; id.x<activeMap.getSize().x; id.x++)
-        {
-            App::getRenderer().addSprite(activeMap.getTileType(id).getSprite(), glm::translate(glm::vec3({id, 0})), MAP_LAYER);
-        }
+    drawMap(activeMap);
 }
 
 void MapEditorScene::addKeybindings()

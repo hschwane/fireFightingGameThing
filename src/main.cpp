@@ -38,7 +38,7 @@ int main()
 
     // setup renderer
     mpu::gph::Renderer2D& renderer = App::getRenderer();
-    renderer.setSamplingLinear(true,true);
+    renderer.setSamplingLinear(true,false);
 
     // handle window resizing
     wnd.addFBSizeCallback([&](int w, int h)

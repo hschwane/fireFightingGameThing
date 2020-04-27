@@ -13,7 +13,7 @@
 
 // includes
 //--------------------
-# include "TileType.h"
+# include "dataModel/TileType.h"
 //--------------------
 
 TileType& ttNone();
