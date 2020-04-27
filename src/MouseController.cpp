@@ -66,12 +66,35 @@ MouseController::MouseController(mpu::gph::Window& wnd)
 
 void MouseController::update()
 {
-    // move camera by dragging middle mouse button
-    m_thisFrameCameraMovement = glm::min(glm::vec2(m_cameraDragSpeedLimit),m_cameraDragSensitivity*m_cameraDragVelocity) * ip::deltaTime();
+    // get cursor position
+    glm::dvec2 cPos = m_wnd.get().getCursorPos();
+    glm::vec2 wndSize = m_wnd.get().getSize();
+    bool hovered = true; // will be set to false is mouse is not above the window
 
     // trap cursor in window
-    if( ip::getHoveredWindow() == nullptr && m_trapCursor )
+    if( m_trapCursor )
     {
-
+        cPos = glm::clamp(cPos, {0,0}, glm::dvec2(wndSize) );
+        m_wnd.get().setCursorPos(cPos);
     }
+    else
+        hovered = (ip::getHoveredWindow() == &m_wnd.get());
+
+    // scroll by moving mouse to edge of screen
+    glm::vec2 edgeScrollMovement{0,0};
+    if(hovered)
+    {
+        if(cPos.x < 8)
+            edgeScrollMovement.x = -m_cameraEdgeScrollSpeed;
+        else if(cPos.x > wndSize.x - 8)
+            edgeScrollMovement.x = m_cameraEdgeScrollSpeed;
+        if(cPos.y < 8)
+            edgeScrollMovement.y = m_cameraEdgeScrollSpeed;
+        else if(cPos.y > wndSize.y - 8)
+            edgeScrollMovement.y = -m_cameraEdgeScrollSpeed;
+    }
+
+    // move camera by dragging middle mouse button and edge scrolling
+    m_thisFrameCameraMovement = glm::min( glm::vec2(m_cameraDragSpeedLimit),
+            m_cameraDragSensitivity*m_cameraDragVelocity+edgeScrollMovement) * ip::deltaTime();
 }

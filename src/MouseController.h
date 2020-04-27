@@ -49,15 +49,16 @@ public:
 
 private:
 //    std::vector<std::function<void()>>
-    glm::vec2 m_cameraDragVelocity; //!< speed with which camera is dragged
-    glm::vec2 m_thisFrameCameraMovement; //!< camera movement based on mouse during current frame
+    glm::vec2 m_cameraDragVelocity{0,0}; //!< speed with which camera is dragged
+    glm::vec2 m_thisFrameCameraMovement{0,0}; //!< camera movement based on mouse during current frame
 
     std::reference_wrapper<mpu::gph::Window> m_wnd;
 
     // settings
     float m_cameraDragSensitivity{0.3}; //!< sensitivity of camera dragging
     float m_cameraDragSpeedLimit{50.0}; //!< sensitivity of camera dragging
-    bool m_trapCursor{true}; //!< trap cursor in window
+    float m_cameraEdgeScrollSpeed{20.0}; //!< how fast the camera will scroll when mouse is touching border of the screen
+    bool m_trapCursor{false}; //!< trap cursor in window
 };
 
 
