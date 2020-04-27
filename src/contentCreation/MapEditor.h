@@ -1,41 +1,44 @@
 /*
  * fireFightingGameThing
- * MapEditorScene.h
+ * MapEditor.h
  *
  * @author: Hendrik Schwanekamp
  * @mail:   hendrik.schwanekamp@gmx.net
  *
- * Implements the MapEditorScene class
+ * Implements the MapEditor class
  *
  * Copyright (c) 2020 Hendrik Schwanekamp
  *
  */
 
-#ifndef FIREFIGHTINGGAMETHING_MAPEDITORSCENE_H
-#define FIREFIGHTINGGAMETHING_MAPEDITORSCENE_H
+#ifndef FIREFIGHTINGGAMETHING_MAPEDITOR_H
+#define FIREFIGHTINGGAMETHING_MAPEDITOR_H
 
 // includes
 //--------------------
 #include "dataModel/Map.h"
+#include "gameState.h"
 //--------------------
 
 //-------------------------------------------------------------------
 /**
- * class MapEditorScene
+ * class MapEditor
  *
  * class used to edit a map
  *
  */
-class MapEditorScene : public mpu::gph::Scene
+class MapEditor : public GameStateBase
 {
 public:
-    MapEditorScene();
-    ~MapEditorScene() override =default;
+    MapEditor();
+    ~MapEditor() override =default;
 
+private:
     void onActivation() override;
     void onDeactivation() override;
-    void update() override;
-    void draw() override;
+    void handleImGui() override;
+    void update(MouseController& mouseController) override;
+    void draw(mpu::gph::Renderer2D& renderer) override;
 
 private:
 
@@ -52,4 +55,4 @@ private:
 };
 
 
-#endif //FIREFIGHTINGGAMETHING_MAPEDITORSCENE_H
+#endif //FIREFIGHTINGGAMETHING_MAPEDITOR_H

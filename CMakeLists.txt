@@ -54,7 +54,8 @@ add_executable(fireFightingGameThing)
 target_sources(fireFightingGameThing PRIVATE
         "src/main.cpp"
         "src/defaultElements.cpp"
-        "src/contentCreation/MapEditorScene.cpp"
+        "src/contentCreation/MapEditor.cpp"
+        "src/MouseController.cpp"
         )
 
 # add definitions

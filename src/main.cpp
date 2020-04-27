@@ -1,8 +1,9 @@
 #include <mpUtils/mpUtils.h>
 #include <mpUtils/mpGraphics.h>
 
-#include "App.h"
-#include "contentCreation/MapEditorScene.h"
+#include "contentCreation/MapEditor.h"
+#include "MouseController.h"
+#include "gameState.h"
 
 void addGeneralKeys()
 {
@@ -27,8 +28,7 @@ int main()
     using namespace mpu::gph;
 
     // setup main window
-    mpu::gph::Window& wnd = App::getMainWnd();
-    wnd.setTitle("Fire Fighting Game Thingy");
+    mpu::gph::Window wnd(10,10,"Fire Fighting Game Thingy");
 
     // add some keys valid everywhere
     addGeneralKeys();
@@ -37,7 +37,7 @@ int main()
     ImGui::create(wnd);
 
     // setup renderer
-    mpu::gph::Renderer2D& renderer = App::getRenderer();
+    mpu::gph::Renderer2D renderer;
     renderer.setSamplingLinear(true,false);
 
     // handle window resizing
@@ -52,16 +52,21 @@ int main()
     // set grey background for startup
     glClearColor(0.2,0.2,0.2,1.0);
 
+    // setup mouse controller
+    MouseController msCtrl(wnd);
+
     // setup scenes and scene manager
-    mpu::gph::SceneManager& scMngr = App::getSceneManager();
-    unsigned int mapEditorScene = scMngr.addScene(std::make_unique<MapEditorScene>());
-    scMngr.switchToScene(mapEditorScene);
+    GameStateManager gameStateMngr;
+    gameStateMngr.createState<MapEditor>(GameState::mapEditor);
+    gameStateMngr.switchState(GameState::mapEditor);
 
     // start main loop
     while(wnd.frameEnd(), Input::update(), wnd.frameBegin())
     {
-        scMngr.update();
-        scMngr.draw();
+        gameStateMngr.getCurrentState()->handleImGui();
+        msCtrl.update();
+        gameStateMngr.getCurrentState()->update(msCtrl);
+        gameStateMngr.getCurrentState()->draw(renderer);
         renderer.render();
     }
 }

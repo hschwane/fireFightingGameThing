@@ -13,15 +13,16 @@
 
 // includes
 //--------------------
-#include "App.h"
+#include <mpUtils/mpUtils.h>
+#include <mpUtils/mpGraphics.h>
 #include "layer.h"
 #include "dataModel/Map.h"
 //--------------------
 
-void drawMap(const Map& mapToDraw)
+void drawMap(mpu::gph::Renderer2D& renderer, const Map& mapToDraw)
 {
-    mapToDraw.forEachTile([](const Map& m, const glm::uvec2& id ){
-        App::getRenderer().addSprite(m.getTileType(id).getSprite(), glm::translate(glm::vec3({id, 0})), MAP_LAYER);
+    mapToDraw.forEachTile([&](const Map& m, const glm::uvec2& id ){
+        renderer.addSprite(m.getTileType(id).getSprite(), glm::translate(glm::vec3({id, 0})), MAP_LAYER);
     });
 }
 
