@@ -53,6 +53,7 @@ add_executable(fireFightingGameThing)
 # add general source files
 target_sources(fireFightingGameThing PRIVATE
         "src/main.cpp"
+        "src/Map.cpp"
         )
 
 # add definitions

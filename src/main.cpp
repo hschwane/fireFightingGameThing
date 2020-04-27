@@ -1,6 +1,9 @@
 #include <mpUtils/mpUtils.h>
 #include <mpUtils/mpGraphics.h>
 
+#include "TileType.h"
+#include "Map.h"
+
 void addGeneralKeys()
 {
     using namespace mpu::gph;
@@ -63,10 +66,26 @@ int main()
     // background color
     glClearColor(0.2,0.3,0.5,1.0);
 
+    // create some tile types
+    constexpr unsigned char transparent[] = {0,0,0,0};
+    constexpr unsigned char green[] = {60,200,30,255};
+    constexpr unsigned char grey[] = {200,200,200,255};
+    TileType ttNone("none",{PROJECT_RESOURCE_PATH"tiles/none.png"});
+    TileType ttGrass("grass",{PROJECT_RESOURCE_PATH"tiles/grass.png"});
+    TileType ttConcrete("concrete",{PROJECT_RESOURCE_PATH"tiles/concrete.png"});
+
+    // create a map
+    Map mainMap({100,100},ttGrass);
+
+
     // start main loop
     while(mainWnd.frameEnd(), Input::update(), mainWnd.frameBegin())
     {
+        debugCamera.showDebugWindow();
+        debugCamera.update();
+        renderer.setView(debugCamera.viewMatrix());
 
+        mainMap.addTilesForRendering(renderer);
         renderer.render();
     }
 
