@@ -32,7 +32,7 @@ void Map::addTilesForRendering(mpu::gph::Renderer2D& renderer)
         for(id.x = 0; id.x<m_size.x; id.x++)
         {
             unsigned int memId = getTileId(id);
-            renderer.addSprite( &m_tileTypes[memId].get().sprite, glm::translate(glm::vec3({id,0})), MAP_LAYER);
+            renderer.addSprite(m_tileTypes[memId].get().getSprite(), glm::translate(glm::vec3({id, 0})), MAP_LAYER);
         }
 }
 

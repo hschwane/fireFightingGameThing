@@ -70,9 +70,8 @@ int main()
     constexpr unsigned char transparent[] = {0,0,0,0};
     constexpr unsigned char green[] = {60,200,30,255};
     constexpr unsigned char grey[] = {200,200,200,255};
-    TileType ttNone("none",{PROJECT_RESOURCE_PATH"tiles/none.png"});
-    TileType ttGrass("grass",{PROJECT_RESOURCE_PATH"tiles/grass.png"});
-    TileType ttConcrete("concrete",{PROJECT_RESOURCE_PATH"tiles/concrete.png"});
+    TileType ttGrass = TileType::loadFromFile(PROJECT_RESOURCE_PATH"data/core/tiles/grass.cfg");
+    TileType ttConcrete = TileType::loadFromFile(PROJECT_RESOURCE_PATH"data/core/tiles/concrete.cfg");
 
     // create a map
     Map mainMap({100,100},ttGrass);
@@ -81,12 +80,10 @@ int main()
     // start main loop
     while(mainWnd.frameEnd(), Input::update(), mainWnd.frameBegin())
     {
-        debugCamera.showDebugWindow();
         debugCamera.update();
         renderer.setView(debugCamera.viewMatrix());
 
         mainMap.addTilesForRendering(renderer);
         renderer.render();
     }
-
 }
