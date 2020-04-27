@@ -31,11 +31,13 @@ class Map
 {
 public:
 
-    Map(glm::uvec2 size);
-    void draw(mpu::gph::Renderer2D& renderer); //!< adds all tiles of the map to the renderer
+    Map(glm::uvec2 size = {10,10});
 
     // changing the map
     void setTileType(const glm::uvec2& id, const TileType& type); //!< set type for tile at id
+    const TileType& getTileType(const glm::uvec2& id) {return m_tileTypes[getTileId(id)];}
+
+    glm::uvec2 getSize() const {return  m_size;}
 
 private:
     // some internal helper functions

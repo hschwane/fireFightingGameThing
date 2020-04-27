@@ -1,8 +1,8 @@
 #include <mpUtils/mpUtils.h>
 #include <mpUtils/mpGraphics.h>
 
-#include "TileType.h"
-#include "Map.h"
+#include "App.h"
+#include "contentCreation/MapEditorScene.h"
 
 void addGeneralKeys()
 {
@@ -19,18 +19,6 @@ void addGeneralKeys()
     ip::mapKeyToInput("Quit",GLFW_KEY_ESCAPE);
 }
 
-void addDebugCameraKeys()
-{
-    using namespace mpu::gph;
-    namespace ip = mpu::gph::Input;
-
-    ip::mapScrollToInput("DebugCameraZoom");
-    ip::mapKeyToInput("DebugCameraMoveDownUp",GLFW_KEY_W,ip::ButtonBehavior::whenDown,ip::AxisBehavior::positive);
-    ip::mapKeyToInput("DebugCameraMoveDownUp",GLFW_KEY_S,ip::ButtonBehavior::whenDown,ip::AxisBehavior::negative);
-    ip::mapKeyToInput("DebugCameraMoveLeftRight",GLFW_KEY_D,ip::ButtonBehavior::whenDown,ip::AxisBehavior::positive);
-    ip::mapKeyToInput("DebugCameraMoveLeftRight",GLFW_KEY_A,ip::ButtonBehavior::whenDown,ip::AxisBehavior::negative);
-}
-
 int main()
 {
     mpu::Log myLog(mpu::LogLvl::ALL,mpu::ConsoleSink());
@@ -39,74 +27,41 @@ int main()
     using namespace mpu::gph;
 
     // setup main window
-    Window mainWnd(10,10,"FireFightingGameThing");
+    mpu::gph::Window& wnd = App::getMainWnd();
+    wnd.setTitle("Fire Fighting Game Thingy");
+
+    // add some keys valid everywhere
     addGeneralKeys();
 
     // setup imgui
-    ImGui::create(mainWnd);
+    ImGui::create(wnd);
 
-    // setup camera
-    Camera2D debugCamera({0,0},1.0,"DebugCamera");
-    debugCamera.addInputs();
-    addDebugCameraKeys();
-
-    // setup 2d renderer
-    Renderer2D renderer;
+    // setup renderer
+    mpu::gph::Renderer2D& renderer = App::getRenderer();
     renderer.setSamplingLinear(true,true);
 
     // handle window resizing
-    mainWnd.addFBSizeCallback([&](int w, int h)
+    wnd.addFBSizeCallback([&](int w, int h)
     {
-        glViewport(0,0,w,h);
-        float aspect = float(w)/h;
-        renderer.setProjection(-1*aspect,1*aspect,-1,1);
+      glViewport(0,0,w,h);
+      float aspect = float(w)/h;
+      renderer.setProjection(-1*aspect,1*aspect,-1,1);
     });
-    mainWnd.setSize(800,800); // trigger resize callback to set projection
+    wnd.setSize(800,800); // trigger resize callback to set projection
 
-    // background color
-    glClearColor(0.2,0.3,0.5,1.0);
+    // set grey background for startup
+    glClearColor(0.2,0.2,0.2,1.0);
 
-    // create some tile types
-    constexpr unsigned char transparent[] = {0,0,0,0};
-    constexpr unsigned char green[] = {60,200,30,255};
-    constexpr unsigned char grey[] = {200,200,200,255};
-    TileType ttGrass = TileType::loadFromFile(PROJECT_RESOURCE_PATH"data/core/tiles/grass.cfg");
-    TileType ttConcrete = TileType::loadFromFile(PROJECT_RESOURCE_PATH"data/core/tiles/concrete.cfg");
-
-    // create a map
-    Map mainMap({100,100});
-    mainMap.setTileType({0,0},ttGrass);
-
-    // test selction
-    glm::vec2 selectionStart;
-    bool selecting = false;
-    namespace ip = mpu::gph::Input;
-    mpu::gph::Input::addButton("BeginSelection","Begin a selection.",[&](const mpu::gph::Window& wnd)
-    {
-        selectionStart = mouseToWorld2D(wnd.getCursorPos(),{0,0,800,800},renderer.getViewProjection());
-        selecting = true;
-    });
-
-    mpu::gph::Input::addButton("EndSelection","End a selection.",[&](const mpu::gph::Window& wnd)
-    {
-        glm::vec2 selectionEnd = mouseToWorld2D(wnd.getCursorPos(),{0,0,800,800},renderer.getViewProjection());
-
-        mainMap.setTileType(glm::round(selectionEnd),ttConcrete);
-
-        selecting = false;
-    });
-
-    mpu::gph::Input::mapMouseButtonToInput("BeginSelection",GLFW_MOUSE_BUTTON_1,ip::ButtonBehavior::onPress);
-    mpu::gph::Input::mapMouseButtonToInput("EndSelection",GLFW_MOUSE_BUTTON_1,ip::ButtonBehavior::onRelease);
+    // setup scenes and scene manager
+    mpu::gph::SceneManager& scMngr = App::getSceneManager();
+    unsigned int mapEditorScene = scMngr.addScene(std::make_unique<MapEditorScene>());
+    scMngr.switchToScene(mapEditorScene);
 
     // start main loop
-    while(mainWnd.frameEnd(), Input::update(), mainWnd.frameBegin())
+    while(wnd.frameEnd(), Input::update(), wnd.frameBegin())
     {
-        debugCamera.showDebugWindow();
-        debugCamera.update();
-        renderer.setView(debugCamera.viewMatrix());
-
-        mainMap.draw(renderer);
+        scMngr.update();
+        scMngr.draw();
         renderer.render();
     }
 }

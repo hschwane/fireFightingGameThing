@@ -16,6 +16,7 @@
 #include "Map.h"
 #include "layer.h"
 #include "defaultElements.h"
+#include "App.h"
 //--------------------
 
 // function definitions of the Map class
@@ -24,17 +25,6 @@ Map::Map(glm::uvec2 size)
     : m_size(size), m_length(size.x*size.y)
 {
     m_tileTypes.resize(m_length, ttNone());
-}
-
-void Map::draw(mpu::gph::Renderer2D& renderer)
-{
-    glm::uvec2 id{0,0};
-    for(id.y = 0; id.y<m_size.y; id.y++)
-        for(id.x = 0; id.x<m_size.x; id.x++)
-        {
-            unsigned int memId = getTileId(id);
-            renderer.addSprite(m_tileTypes[memId].get().getSprite(), glm::translate(glm::vec3({id, 0})), MAP_LAYER);
-        }
 }
 
 void Map::setTileType(const glm::uvec2& id, const TileType& type)

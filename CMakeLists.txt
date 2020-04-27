@@ -55,6 +55,7 @@ target_sources(fireFightingGameThing PRIVATE
         "src/main.cpp"
         "src/Map.cpp"
         "src/defaultElements.cpp"
+        "src/contentCreation/MapEditorScene.cpp"
         )
 
 # add definitions
