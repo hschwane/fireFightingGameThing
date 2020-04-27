@@ -15,14 +15,15 @@
 //--------------------
 #include "Map.h"
 #include "layer.h"
+#include "defaultElements.h"
 //--------------------
 
 // function definitions of the Map class
 //-------------------------------------------------------------------
-Map::Map(glm::uvec2 size, const TileType& defaultTile)
+Map::Map(glm::uvec2 size)
     : m_size(size), m_length(size.x*size.y)
 {
-    m_tileTypes.resize(m_length, defaultTile);
+    m_tileTypes.resize(m_length, ttNone());
 }
 
 void Map::addTilesForRendering(mpu::gph::Renderer2D& renderer)

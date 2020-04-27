@@ -54,6 +54,7 @@ add_executable(fireFightingGameThing)
 target_sources(fireFightingGameThing PRIVATE
         "src/main.cpp"
         "src/Map.cpp"
+        "src/defaultElements.cpp"
         )
 
 # add definitions

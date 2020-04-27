@@ -31,7 +31,7 @@ class Map
 {
 public:
 
-    Map(glm::uvec2 size, const TileType& defaultTile);
+    Map(glm::uvec2 size);
     void addTilesForRendering(mpu::gph::Renderer2D& renderer); //!< adds all tiles of the map to the renderer
 
     // changing the map

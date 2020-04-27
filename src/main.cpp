@@ -74,7 +74,7 @@ int main()
     TileType ttConcrete = TileType::loadFromFile(PROJECT_RESOURCE_PATH"data/core/tiles/concrete.cfg");
 
     // create a map
-    Map mainMap({100,100},ttGrass);
+    Map mainMap({100,100});
 
 
     // start main loop
