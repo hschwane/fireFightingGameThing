@@ -16,6 +16,6 @@
 
 TileType& ttNone()
 {
-    static TileType _none_tile("none",mpu::gph::Sprite2D(PROJECT_RESOURCE_PATH"none.png"));
+    static TileType _none_tile("none",mpu::gph::Sprite2D(PROJECT_RESOURCE_PATH"data/default/none.png"));
     return _none_tile;
 }

@@ -75,15 +75,38 @@ int main()
 
     // create a map
     Map mainMap({100,100});
+    mainMap.setTileType({0,0},ttGrass);
 
+    // test selction
+    glm::vec2 selectionStart;
+    bool selecting = false;
+    namespace ip = mpu::gph::Input;
+    mpu::gph::Input::addButton("BeginSelection","Begin a selection.",[&](const mpu::gph::Window& wnd)
+    {
+        selectionStart = mouseToWorld2D(wnd.getCursorPos(),{0,0,800,800},renderer.getViewProjection());
+        selecting = true;
+    });
+
+    mpu::gph::Input::addButton("EndSelection","End a selection.",[&](const mpu::gph::Window& wnd)
+    {
+        glm::vec2 selectionEnd = mouseToWorld2D(wnd.getCursorPos(),{0,0,800,800},renderer.getViewProjection());
+
+        mainMap.setTileType(glm::round(selectionEnd),ttConcrete);
+
+        selecting = false;
+    });
+
+    mpu::gph::Input::mapMouseButtonToInput("BeginSelection",GLFW_MOUSE_BUTTON_1,ip::ButtonBehavior::onPress);
+    mpu::gph::Input::mapMouseButtonToInput("EndSelection",GLFW_MOUSE_BUTTON_1,ip::ButtonBehavior::onRelease);
 
     // start main loop
     while(mainWnd.frameEnd(), Input::update(), mainWnd.frameBegin())
     {
+        debugCamera.showDebugWindow();
         debugCamera.update();
         renderer.setView(debugCamera.viewMatrix());
 
-        mainMap.addTilesForRendering(renderer);
+        mainMap.draw(renderer);
         renderer.render();
     }
 }

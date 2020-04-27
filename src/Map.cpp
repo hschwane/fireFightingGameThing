@@ -26,7 +26,7 @@ Map::Map(glm::uvec2 size)
     m_tileTypes.resize(m_length, ttNone());
 }
 
-void Map::addTilesForRendering(mpu::gph::Renderer2D& renderer)
+void Map::draw(mpu::gph::Renderer2D& renderer)
 {
     glm::uvec2 id{0,0};
     for(id.y = 0; id.y<m_size.y; id.y++)
