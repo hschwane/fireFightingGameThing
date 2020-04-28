@@ -79,6 +79,8 @@ MouseController::MouseController(mpu::gph::Window& wnd)
         glm::dvec2 cPos = m_wnd.get().getCursorPos();
         m_endPosition = mpu::gph::mouseToWorld2D( cPos, m_viewport, m_viewProjection);
         this->m_selectionState = SelectionState::completed;
+        logDEBUG("MapEditor") << "selection complete " << glm::to_string(this->selctionBeginPos())
+                              << " -> " << glm::to_string( this->selectionEndPos() );
     });
 
     ip::mapMouseButtonToInput("BeginSelection",GLFW_MOUSE_BUTTON_1,ip::ButtonBehavior::onPress);
@@ -140,7 +142,7 @@ void MouseController::update()
             m_cameraDragSensitivity*m_cameraDragVelocity+edgeScrollMovement) * ip::deltaTime();
 
     // calculate mouse world position
-    m_worldMousePos = mpu::gph::mouseToWorld2D( cPos, {0,0,m_windowSize}, m_viewProjection);
+    m_worldMousePos = mpu::gph::mouseToWorld2D( cPos, m_viewport, m_viewProjection);
 }
 
 void MouseController::lateUpdate()

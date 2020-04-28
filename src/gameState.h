@@ -46,8 +46,8 @@ public:
     virtual void onActivation()=0;
     virtual void onDeactivation()=0;
     virtual void handleImGui()=0;
-    virtual void update(MouseController& mouseController)=0;
-    virtual void draw(mpu::gph::Renderer2D& renderer)=0;
+    virtual void update(MouseController& mc)=0;
+    virtual void draw(mpu::gph::Renderer2D& renderer, MouseController& mc)=0;
 
     void setStateMachine(GameStateManager* sm) {m_gameStateManager = sm;}
 

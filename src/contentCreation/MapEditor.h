@@ -38,10 +38,11 @@ private:
     void onDeactivation() override;
     void handleImGui() override;
     void update(MouseController& mc) override;
-    void draw(mpu::gph::Renderer2D& renderer) override;
+    void draw(mpu::gph::Renderer2D& renderer, MouseController& mc) override;
 
 private:
 
+    mpu::gph::Sprite2D m_tileSelectionPreview;
 
     void addKeybindings(); //!< adds keybindings used for the editor
 

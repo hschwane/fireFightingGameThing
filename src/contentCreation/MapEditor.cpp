@@ -23,7 +23,8 @@
 MapEditor::MapEditor()
     : m_camera({0,0},1.0,"EditorCamera"),
       ttGrass(TileType::loadFromFile(PROJECT_RESOURCE_PATH"data/core/tiles/grass.cfg")),
-      ttConcrete(TileType::loadFromFile(PROJECT_RESOURCE_PATH"data/core/tiles/concrete.cfg"))
+      ttConcrete(TileType::loadFromFile(PROJECT_RESOURCE_PATH"data/core/tiles/concrete.cfg")),
+      m_tileSelectionPreview(PROJECT_RESOURCE_PATH"data/default/tileSelection.png")
 
 {
     // setup input handling
@@ -46,6 +47,7 @@ void MapEditor::handleImGui()
 
 void MapEditor::update(MouseController& mc)
 {
+    // handle tile selection
     if(mc.selectionState() == SelectionState::completed)
     {
         activeMap.forEachTileInRect(mc.selctionBeginPos(), mc.selectionEndPos(), [this](Map& map, const glm::uvec2& tile)
@@ -60,9 +62,19 @@ void MapEditor::update(MouseController& mc)
     m_camera.update();
 }
 
-void MapEditor::draw(mpu::gph::Renderer2D& renderer)
+void MapEditor::draw(mpu::gph::Renderer2D& renderer, MouseController& mc)
 {
     renderer.setView(m_camera.viewMatrix());
+
+    // show selection preview
+    if(mc.selectionState() == SelectionState::inProgress)
+    {
+        activeMap.forEachTileInRect(mc.selctionBeginPos(), mc.getMousePosWorld(), [this,&renderer](Map& map, const glm::uvec2& tile)
+        {
+            renderer.addSprite(m_tileSelectionPreview,glm::translate(glm::vec3(tile,0)),5,{1,1,1,.7});
+        });
+    }
+
     drawMap(renderer,activeMap);
 }
 
