@@ -41,11 +41,13 @@ int main()
     renderer.setSamplingLinear(true,false);
 
     // handle window resizing
+    glm::ivec2 wndSize;
     wnd.addFBSizeCallback([&](int w, int h)
     {
-      glViewport(0,0,w,h);
-      float aspect = float(w)/h;
-      renderer.setProjection(-1*aspect,1*aspect,-1,1);
+        wndSize = {w,h};
+        glViewport(0,0,w,h);
+        float aspect = float(w)/h;
+        renderer.setProjection(-1*aspect,1*aspect,-1,1);
     });
     wnd.setSize(800,800); // trigger resize callback to set projection
 
@@ -64,7 +66,7 @@ int main()
     while(wnd.frameEnd(), Input::update(), wnd.frameBegin())
     {
         // handle immediate ui's
-        gameStateMngr.getCurrentState()->handleImGui();
+        gameStateMngr.getCurrentState()->handleImGui(wndSize);
 
         // update everything
         msCtrl.update();

@@ -36,18 +36,20 @@ public:
 private:
     void onActivation() override;
     void onDeactivation() override;
-    void handleImGui() override;
+    void handleImGui(const glm::ivec2& wndSize) override;
     void update(MouseController& mc) override;
     void draw(mpu::gph::Renderer2D& renderer, MouseController& mc) override;
 
 private:
 
+    std::vector<TileType> m_loadedTiles;
+    std::vector<std::reference_wrapper<TileType>> m_activeTiles;
+    int m_selectedTile{0};
+
     mpu::gph::Sprite2D m_tileSelectionPreview;
 
     void addKeybindings(); //!< adds keybindings used for the editor
 
-    TileType ttGrass;
-    TileType ttConcrete;
     Map activeMap;
     mpu::gph::Camera2D m_camera;
 

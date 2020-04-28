@@ -45,7 +45,7 @@ public:
     virtual ~GameStateBase()=default;
     virtual void onActivation()=0;
     virtual void onDeactivation()=0;
-    virtual void handleImGui()=0;
+    virtual void handleImGui(const glm::ivec2& wndSize)=0;
     virtual void update(MouseController& mc)=0;
     virtual void draw(mpu::gph::Renderer2D& renderer, MouseController& mc)=0;
 
