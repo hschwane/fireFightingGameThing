@@ -30,7 +30,6 @@ MapEditor::MapEditor()
     m_camera.addInputs();
     addKeybindings();
     activeMap = Map({100,100},ttGrass);
-
 }
 
 void MapEditor::onActivation()
@@ -39,18 +38,25 @@ void MapEditor::onActivation()
 
 void MapEditor::onDeactivation()
 {
-
 }
 
 void MapEditor::handleImGui()
 {
-
 }
 
-void MapEditor::update(MouseController& mouseController)
+void MapEditor::update(MouseController& mc)
 {
-    m_camera.moveX(mouseController.getCameraMovement().x);
-    m_camera.moveY(mouseController.getCameraMovement().y);
+    if(mc.selectionState() == SelectionState::completed)
+    {
+        activeMap.forEachTileInRect(mc.selctionBeginPos(), mc.selectionEndPos(), [this](Map& map, const glm::uvec2& tile)
+        {
+            map.setTileType(tile,ttConcrete);
+        });
+    }
+
+    // add mouse movement to camera and update
+    m_camera.moveX(mc.getCameraMovement().x);
+    m_camera.moveY(mc.getCameraMovement().y);
     m_camera.update();
 }
 

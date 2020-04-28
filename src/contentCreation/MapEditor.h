@@ -37,10 +37,11 @@ private:
     void onActivation() override;
     void onDeactivation() override;
     void handleImGui() override;
-    void update(MouseController& mouseController) override;
+    void update(MouseController& mc) override;
     void draw(mpu::gph::Renderer2D& renderer) override;
 
 private:
+
 
     void addKeybindings(); //!< adds keybindings used for the editor
 

@@ -63,10 +63,19 @@ int main()
     // start main loop
     while(wnd.frameEnd(), Input::update(), wnd.frameBegin())
     {
+        // handle immediate ui's
         gameStateMngr.getCurrentState()->handleImGui();
+
+        // update everything
         msCtrl.update();
         gameStateMngr.getCurrentState()->update(msCtrl);
+
+        // render everything
         gameStateMngr.getCurrentState()->draw(renderer);
         renderer.render();
+
+        // perform some cleanup and organization for next frame
+        msCtrl.lateUpdate();
+        msCtrl.setViewProjection(renderer.getViewProjection());
     }
 }

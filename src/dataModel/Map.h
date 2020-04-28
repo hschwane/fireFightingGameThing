@@ -37,12 +37,16 @@ public:
     // iterate
     void forEachTile(std::function<void(Map&, const glm::uvec2&)> func); //!< executes func on every tile of the map
     void forEachTile(std::function<void(const Map&, const glm::uvec2&)> func) const; //!< executes func on every tile of the map
+    void forEachTileInRect(const glm::vec2& posA, const glm::vec2& posB, std::function<void(Map&, const glm::uvec2&)> func); //!< executes func on every tile of the map
+    void forEachTileInRect(const glm::vec2& posA, const glm::vec2& posB, std::function<void(const Map&, const glm::uvec2&)> func) const; //!< executes func on every tile of the map
 
     // changing the map
     void setTileType(const glm::uvec2& id, const TileType& type); //!< set type for tile at id
     const TileType& getTileType(const glm::uvec2& id) const {return m_tileTypes[getTileId(id)];}
 
-    glm::uvec2 getSize() const {return  m_size;}
+    glm::uvec2 getSize() const {return  m_size;} //!< returns size of the map
+
+    static glm::uvec2 tileAtWorld(glm::vec2 position); //!< returns tile id at world position
 
 private:
     // some internal helper functions
@@ -85,6 +89,33 @@ inline void Map::forEachTile(std::function<void(const Map&, const glm::uvec2&)> 
         }
 }
 
+inline void Map::forEachTileInRect(const glm::vec2& posA, const glm::vec2& posB, std::function<void(Map&, const glm::uvec2&)> func)
+{
+    glm::uvec2 min = clamp(tileAtWorld(posA), {0,0}, m_size);
+    glm::uvec2 max = clamp(tileAtWorld(posB), {0,0}, m_size);
+
+    glm::uvec2 id{0,0};
+    for(id.y = min.x; id.y<max.y; id.y++)
+        for(id.x = min.y; id.x<max.x; id.x++)
+        {
+            func(*this,id);
+        }
+}
+
+inline void Map::forEachTileInRect(const glm::vec2& posA, const glm::vec2& posB,
+                            std::function<void(const Map&, const glm::uvec2&)> func) const
+{
+    glm::uvec2 min = clamp(glm::uvec2{posA}, {0,0}, m_size);
+    glm::uvec2 max = clamp(glm::uvec2{posB}, {0,0}, m_size);
+
+    glm::uvec2 id{0,0};
+    for(id.y = min.x; id.y<max.y; id.y++)
+        for(id.x = min.y; id.x<max.x; id.x++)
+        {
+            func(*this,id);
+        }
+}
+
 inline void Map::setTileType(const glm::uvec2& id, const TileType& type)
 {
     m_tileTypes[getTileId(id)] = type;
@@ -100,5 +131,9 @@ inline glm::uvec2 Map::getTileId2d(uint32_t id) const
     return glm::uvec2(id%m_size.x,id/m_size.x);
 }
 
+inline glm::uvec2 Map::tileAtWorld(glm::vec2 position)
+{
+    return glm::round(position);
+}
 
 #endif //FIREFIGHTINGGAMETHING_MAP_H
