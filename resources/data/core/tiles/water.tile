@@ -1,0 +1,4 @@
+[Tile]
+displayName = "water"
+contentPack = "core"
+sprite = "water.sprite"

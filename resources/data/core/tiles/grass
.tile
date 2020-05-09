@@ -1,0 +1,4 @@
+[Tile]
+displayName = "grass"
+contentPack = "core"
+sprite = "grass.sprite"
