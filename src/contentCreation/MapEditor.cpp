@@ -47,8 +47,10 @@ void MapEditor::onDeactivation()
 {
 }
 
-void MapEditor::handleImGui(const glm::ivec2& wndSize)
+void MapEditor::handleImGui()
 {
+    glm::ivec2 wndSize = ImGui::getAttatchedWindow().getSize();
+
     ImGui::SetNextWindowPos({0,0},ImGuiCond_Always);
     ImGui::SetNextWindowSizeConstraints(ImVec2(128,wndSize.y),ImVec2(wndSize.x,wndSize.y) );
 

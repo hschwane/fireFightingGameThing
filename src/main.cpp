@@ -54,8 +54,12 @@ int main()
     // set grey background for startup
     glClearColor(0.2,0.2,0.2,1.0);
 
+    // setup resource manager
+
+
     // setup mouse controller
     MouseController msCtrl(wnd);
+
 
     // setup scenes and scene manager
     GameStateManager gameStateMngr;
@@ -66,7 +70,7 @@ int main()
     while(wnd.frameEnd(), Input::update(), wnd.frameBegin())
     {
         // handle immediate ui's
-        gameStateMngr.getCurrentState()->handleImGui(wndSize);
+        gameStateMngr.getCurrentState()->handleImGui();
 
         // update everything
         msCtrl.update();

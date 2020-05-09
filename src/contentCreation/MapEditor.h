@@ -36,7 +36,7 @@ public:
 private:
     void onActivation() override;
     void onDeactivation() override;
-    void handleImGui(const glm::ivec2& wndSize) override;
+    void handleImGui() override;
     void update(MouseController& mc) override;
     void draw(mpu::gph::Renderer2D& renderer, MouseController& mc) override;
 

@@ -37,10 +37,11 @@ public:
     //!< loads a tile type from a configuration file
     static TileType loadFromFile(const std::string& file)
     {
-        mpu::CfgFile cfg(file);
-        std::string name = cfg.getValue<std::string>("Tile","name");
-        std::string spritePath = cfg.getValue<std::string>("Tile","sprite");
-        return TileType(name,mpu::gph::Sprite2D(PROJECT_RESOURCE_PATH"data/core/sprites/"+ spritePath));
+        // TODO:fixme
+//        mpu::CfgFile cfg(file);
+//        std::string name = cfg.getValue<std::string>("Tile","name");
+//        std::string spritePath = cfg.getValue<std::string>("Tile","sprite");
+//        return TileType(name,mpu::gph::Sprite2D(PROJECT_RESOURCE_PATH"data/core/sprites/"+ spritePath));
     }
 
     const std::string& getName() const {return m_name;} //!< the name of this tile type in the user interface
