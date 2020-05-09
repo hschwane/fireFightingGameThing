@@ -56,6 +56,7 @@ target_sources(fireFightingGameThing PRIVATE
         "src/defaultElements.cpp"
         "src/contentCreation/MapEditor.cpp"
         "src/MouseController.cpp"
+        "src/resourceManagemant.cpp"
         )
 
 # add definitions

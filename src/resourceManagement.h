@@ -17,6 +17,12 @@
 #include <mpUtils/mpGraphics.h>
 //--------------------
 
-using ResourceManagerType = mpu::gph::ResourceManager<ImageRC,SpriteRC>;
+using ResourceManagerType = mpu::ResourceManager<mpu::ImageRC,mpu::gph::Sprite2DRC>;
+
+ResourceManagerType& getRM(); //!< returns the resource management system
+
+// instantiate some templates, so they can be linked
+//-------------------------------------------------------------------
+extern template class mpu::ResourceManager<mpu::ImageRC,mpu::gph::Sprite2DRC>;
 
 #endif //FIREFIGHTINGGAMETHING_RESOURCEMANAGEMENT_H
