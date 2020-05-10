@@ -59,6 +59,7 @@ target_sources(fireFightingGameThing PRIVATE
         "src/MouseController.cpp"
         "src/resourceManagemant.cpp"
         "src/dataModel/TileType.cpp"
+        "src/dataModel/RootedObjectType.cpp"
         )
 
 # add definitions
