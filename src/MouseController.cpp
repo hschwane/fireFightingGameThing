@@ -72,27 +72,31 @@ MouseController::MouseController(mpu::gph::Window& wnd)
     ip::addButton("CancelDragSelection","Cancel a selection.",[this](const mpu::gph::Window& wnd)
     {
         this->m_selectionState = SelectionState::canceled;
+        logDEBUG("MouseController") << "selection canceled";
     });
 
     ip::addButton("EndDragSelection","End a selection.",[this](const mpu::gph::Window& wnd)
     {
-        glm::dvec2 cPos = m_wnd.get().getCursorPos();
-        m_endPosition = mpu::gph::mouseToWorld2D( cPos, m_viewport, m_viewProjection);
-        this->m_selectionState = SelectionState::completed;
-        logDEBUG("MapEditor") << "selection complete " << glm::to_string(this->selctionBeginPos())
-                              << " -> " << glm::to_string( this->selectionEndPos() );
+        if(this->m_selectionState == SelectionState::inProgress)
+        {
+            glm::dvec2 cPos = m_wnd.get().getCursorPos();
+            m_endPosition = mpu::gph::mouseToWorld2D(cPos, m_viewport, m_viewProjection);
+            this->m_selectionState = SelectionState::completed;
+            logDEBUG("MouseController") << "selection complete " << glm::to_string(this->selctionBeginPos())
+                                        << " -> " << glm::to_string(this->selectionEndPos());
+        }
     });
 
     ip::mapMouseButtonToInput("BeginSelection",GLFW_MOUSE_BUTTON_1,ip::ButtonBehavior::onPress);
     ip::mapMouseButtonToInput("EndDragSelection",GLFW_MOUSE_BUTTON_1,ip::ButtonBehavior::onRelease);
-    ip::mapMouseButtonToInput("CancelDraSelection",GLFW_MOUSE_BUTTON_1,ip::ButtonBehavior::onPress);
+    ip::mapMouseButtonToInput("CancelDragSelection",GLFW_MOUSE_BUTTON_2,ip::ButtonBehavior::onPress);
 
     // right click selection
     ip::addButton("RightClickSelection","Selection by right click.",[this](const mpu::gph::Window& wnd)
     {
         m_rightClickSelection = true;
     });
-    ip::mapMouseButtonToInput("DoubleClickSelection",GLFW_MOUSE_BUTTON_2,ip::ButtonBehavior::onPress);
+    ip::mapMouseButtonToInput("RightClickSelection",GLFW_MOUSE_BUTTON_2,ip::ButtonBehavior::onPress);
 
     // double click selection
     ip::addButton("DoubleClickSelection","Selection by double click.",[this](const mpu::gph::Window& wnd)
