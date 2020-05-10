@@ -104,6 +104,7 @@ void MapEditor::draw(mpu::gph::Renderer2D& renderer, MouseController& mc)
     }
 
     drawMap(renderer,activeMap);
+    renderer.render();
 }
 
 void MapEditor::addKeybindings()

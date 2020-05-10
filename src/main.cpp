@@ -79,7 +79,6 @@ int main()
 
         // render everything
         gameStateMngr.getCurrentState()->draw(renderer, msCtrl);
-        renderer.render();
 
         // perform some cleanup and organization for next frame
         msCtrl.lateUpdate();
