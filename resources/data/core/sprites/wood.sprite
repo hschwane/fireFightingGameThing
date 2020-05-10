@@ -1,7 +1,7 @@
 [Sprite]
-displayName = "grass"
+displayName = "wood floor"
 spritesheet = ""
-texture="core/images/grasTile.png"
+texture="core/images/woodTile.png"
 rectInImage=[0,0,32,32]
 semitransparent=false
 worldSize=[1.0,1.0]

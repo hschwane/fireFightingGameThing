@@ -1,0 +1,4 @@
+[Tile]
+displayName = "soil light"
+contentPack = "core"
+sprite = "soil2.sprite"

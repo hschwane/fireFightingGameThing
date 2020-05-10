@@ -1,0 +1,4 @@
+[Tile]
+displayName = "brick"
+contentPack = "core"
+sprite = "brick2.sprite"

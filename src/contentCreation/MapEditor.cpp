@@ -34,7 +34,15 @@ MapEditor::MapEditor()
     m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/grass.tile") );
     m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/lightDirt.tile") );
     m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/water.tile") );
-    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/waterrttrtrt.tile") );
+    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/asphalt.tile") );
+    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/brick.tile") );
+    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/brick2.tile") );
+    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/soil.tile") );
+    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/soil2.tile") );
+    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/stone.tile") );
+    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/stone2.tile") );
+    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/woodFloor.tile") );
+    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/woodFloor2.tile") );
 
     activeMap = Map({100,100}, *m_activeTiles[0]);
 
