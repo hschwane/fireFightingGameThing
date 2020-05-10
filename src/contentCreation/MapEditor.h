@@ -16,7 +16,7 @@
 
 // includes
 //--------------------
-#include "dataModel/Map.h"
+#include "gameElements/Map.h"
 #include "gameState.h"
 #include "resourceManagement.h"
 //--------------------

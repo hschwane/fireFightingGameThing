@@ -16,7 +16,7 @@
 #include <mpUtils/mpUtils.h>
 #include <mpUtils/mpGraphics.h>
 #include "layer.h"
-#include "dataModel/Map.h"
+#include "gameElements/Map.h"
 //--------------------
 
 void drawMap(mpu::gph::Renderer2D& renderer, const Map& mapToDraw)
