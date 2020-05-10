@@ -20,19 +20,25 @@
 #include <mpUtils/mpGraphics.h>
 #include "dataModel/TileType.h"
 #include "buildinElements.h"
+#include "gameElements/RootedObject.h"
 //--------------------
 
 //-------------------------------------------------------------------
 /**
  * class Map
  *
- * The map for one operation area.
+ * The map for one operation area. Handles different types of tiles and stores references to objects on them.
+ * This way you can iterate over the map and do things for every tile.
  */
 class Map
 {
 public:
 
+    // construction
     explicit Map(glm::ivec2 size = {10,10}, const TileType& defaultTile = *noneTile());
+
+    // helper
+    static glm::ivec2 tileAtWorld(glm::vec2 position); //!< returns tile id at world position
 
     // iterate
     void forEachTile(std::function<void(Map&, const glm::ivec2&)> func); //!< executes func on every tile of the map
@@ -40,13 +46,16 @@ public:
     void forEachTileInRect(const glm::vec2& posA, const glm::vec2& posB, std::function<void(Map&, const glm::ivec2&)> func); //!< executes func on every tile of the map
     void forEachTileInRect(const glm::vec2& posA, const glm::vec2& posB, std::function<void(const Map&, const glm::ivec2&)> func) const; //!< executes func on every tile of the map
 
-    // changing the map
+    // changing and reading the map
     void setTileType(const glm::ivec2& id, const TileType& type); //!< set type for tile at id
-    const TileType& getTileType(const glm::ivec2& id) const {return m_tileTypes[getTileId(id)];}
+    const TileType& getTileType(const glm::ivec2& id) const {return m_tileTypes[getTileId(id)];} //!< returns the tile type at id
+    void setRootedObject(const glm::ivec2& id, RootedObject& robj); //!< places a rooted object. if an object already exists on that space an error is printed in the log
+    void removeRootedObject(const glm::ivec2& id); //!< remove a rooted object from tile id
+    RootedObject* getRootedObject(const glm::ivec2& id) {return m_rootedObjects[getTileId(id)];}  //!< access a rooted object on tile id
+    const RootedObject* getRootedObject(const glm::ivec2& id) const {return m_rootedObjects[getTileId(id)];}  //!< access a rooted object on tile id
 
-    // accessing data at tiles
+    // map properties
     glm::ivec2 getSize() const {return  m_size;} //!< returns size of the map
-    static glm::ivec2 tileAtWorld(glm::vec2 position); //!< returns tile id at world position
 
 private:
     // some internal helper functions
@@ -58,7 +67,8 @@ private:
     unsigned int m_length;
 
     // data for every tile
-    std::vector<std::reference_wrapper<const TileType>> m_tileTypes;
+    std::vector<std::reference_wrapper<const TileType>> m_tileTypes; //!< every tile has a type
+    std::vector<RootedObject*> m_rootedObjects; //!< every tile can have one or zero rooted object
 };
 
 

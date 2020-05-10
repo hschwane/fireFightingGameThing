@@ -60,7 +60,7 @@ target_sources(fireFightingGameThing PRIVATE
         "src/resourceManagemant.cpp"
         "src/dataModel/TileType.cpp"
         "src/dataModel/RootedObjectType.cpp"
-        "src/gameElements/Map.h"
+        "src/dataModel/Map.cpp"
         "src/gameElements/RootedObject.cpp"
         )
 

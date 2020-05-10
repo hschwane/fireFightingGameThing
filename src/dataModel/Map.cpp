@@ -11,7 +11,7 @@
 
 // includes
 //--------------------
-#include "Map.h"
+#include "dataModel/Map.h"
 //--------------------
 
 // function definitions of the Map class
@@ -20,6 +20,7 @@ Map::Map(glm::ivec2 size, const TileType& defaultTile )
         : m_size(size), m_length(size.x*size.y)
 {
     m_tileTypes.resize(m_length, defaultTile);
+    m_rootedObjects.resize(m_length, nullptr);
 }
 
 void Map::forEachTile(std::function<void(Map&, const glm::ivec2&)> func)
@@ -87,4 +88,24 @@ glm::ivec2 Map::getTileId2d(uint32_t id) const
 glm::ivec2 Map::tileAtWorld(glm::vec2 position)
 {
     return glm::round(position);
+}
+
+void Map::setRootedObject(const glm::ivec2& id, RootedObject& robj)
+{
+    //TODO: right now only single tile objects are supported
+    m_rootedObjects[getTileId(id)] = &robj;
+}
+void Map::removeRootedObject(const glm::ivec2& id)
+{
+    logDEBUG("Map") << "Removed rooted object from tile " << glm::to_string(id);
+
+    #if !defined(NDEBUG)
+    if(m_rootedObjects[getTileId(id)] == nullptr)
+    {
+        logWARNING("Map") << "Removing rooted object from tile which has no rooted object.";
+    }
+    #endif
+
+    //TODO: right now only single tile objects are supported
+    m_rootedObjects[getTileId(id)] = nullptr;
 }

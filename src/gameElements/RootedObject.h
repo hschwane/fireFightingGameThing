@@ -34,15 +34,16 @@
 class RootedObject
 {
 public:
-    RootedObject(glm::ivec2 tile, std::shared_ptr<RootedObjectType> type)
+    RootedObject(glm::uvec2 tile, std::shared_ptr<RootedObjectType> type)
         : m_rootTile(tile), m_objectType(type)
     {}
 
-    void draw(mpu::gph::Renderer2D& renderer); //!< draws the object on the screen
+    void draw(mpu::gph::Renderer2D& renderer) const; //!< draws the object on the screen
     const RootedObjectType& getType() const {return *m_objectType;} //!< access to the object type
+    const glm::uvec2& getRootTile() const {return m_rootTile;} //!< returns the position / root tile of that object
 
 private:
-    glm::ivec2 m_rootTile; //! the main tile this object is rooted on
+    glm::uvec2 m_rootTile; //! the main tile this object is rooted on
     std::shared_ptr<RootedObjectType> m_objectType;
 };
 
