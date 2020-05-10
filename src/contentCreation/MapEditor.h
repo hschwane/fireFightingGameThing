@@ -19,6 +19,7 @@
 #include "dataModel/Map.h"
 #include "gameState.h"
 #include "resourceManagement.h"
+#include <gameElements/RootedObject.h>
 //--------------------
 
 //-------------------------------------------------------------------
@@ -42,6 +43,8 @@ private:
     void draw(mpu::gph::Renderer2D& renderer, MouseController& mc) override;
 
 private:
+
+    std::unique_ptr<RootedObject> testTree;
 
     std::vector<std::shared_ptr<TileType>> m_activeTiles;
     int m_selectedTile{0};

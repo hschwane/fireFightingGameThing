@@ -37,6 +37,9 @@ MapEditor::MapEditor()
     m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/waterrttrtrt.tile") );
 
     activeMap = Map({100,100}, *m_activeTiles[0]);
+
+    testTree = std::make_unique<RootedObject>( glm::uvec2(5,5), std::make_shared<RootedObjectType>("Tree", getRM().load<mpu::gph::Sprite2D>("core/sprites/tree.sprite")) );
+    activeMap.setRootedObject({5,5},*testTree);
 }
 
 void MapEditor::onActivation()

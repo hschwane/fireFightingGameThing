@@ -1,0 +1,10 @@
+[Sprite]
+displayName = "tree0"
+spritesheet = ""
+texture="core/images/treeTile.png"
+rectInImage=[0,0,64,96]
+semitransparent=false
+worldSize=[2.0,3.0]
+pivot=[0.0,-0.75]
+forward=0.0
+tileFactor=1.0
