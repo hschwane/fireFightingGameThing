@@ -29,14 +29,14 @@ MapEditor::MapEditor()
     m_camera.addInputs();
     addKeybindings();
 
-    m_loadedTiles.emplace_back(TileType::loadFromFile(PROJECT_RESOURCE_PATH"data/core/tiles/grass.cfg"));
-    m_loadedTiles.emplace_back(TileType::loadFromFile(PROJECT_RESOURCE_PATH"data/core/tiles/concrete.cfg"));
+    m_activeTiles.emplace_back( noneTile() );
+    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/concrete.tile") );
+    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/grass.tile") );
+    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/lightDirt.tile") );
+    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/water.tile") );
+    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/waterrttrtrt.tile") );
 
-    m_activeTiles.emplace_back(ttNone());
-    m_activeTiles.insert(m_activeTiles.end(),m_loadedTiles.begin(),m_loadedTiles.end());
-
-    activeMap = Map({100,100},m_activeTiles[1]);
-
+    activeMap = Map({100,100}, *m_activeTiles[0]);
 }
 
 void MapEditor::onActivation()
@@ -63,10 +63,10 @@ void MapEditor::handleImGui()
             if(ImGui::Selectable("##", m_selectedTile == i, 0, ImVec2(0, previewSize)))
                 m_selectedTile = i;
             ImGui::SameLine();
-            ImGui::Image((void*)(intptr_t)static_cast<GLuint>(m_activeTiles[i].get().getSprite().getTexture()),
+            ImGui::Image((void*)(intptr_t)static_cast<GLuint>(m_activeTiles[i].get()->getSprite().getTexture()),
                          ImVec2(previewSize, previewSize));
             ImGui::SameLine();
-            ImGui::Text("%s", m_activeTiles[i].get().getName().c_str());
+            ImGui::Text("%s", m_activeTiles[i].get()->getName().c_str());
             ImGui::PopID();
         }
     }
@@ -80,7 +80,7 @@ void MapEditor::update(MouseController& mc)
     {
         activeMap.forEachTileInRect(mc.selctionBeginPos(), mc.selectionEndPos(), [this](Map& map, const glm::uvec2& tile)
         {
-            map.setTileType(tile,m_activeTiles[m_selectedTile]);
+            map.setTileType(tile,*m_activeTiles[m_selectedTile]);
         });
     }
 

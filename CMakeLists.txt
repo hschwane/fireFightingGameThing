@@ -19,6 +19,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
 # find dependencies
 # -------------------------------------------------------------
 enable_language(CXX)
+find_package(Threads REQUIRED)
 find_package(mpUtils REQUIRED)
 
 
@@ -53,10 +54,11 @@ add_executable(fireFightingGameThing)
 # add general source files
 target_sources(fireFightingGameThing PRIVATE
         "src/main.cpp"
-        "src/defaultElements.cpp"
+        "src/buildinElements.cpp"
         "src/contentCreation/MapEditor.cpp"
         "src/MouseController.cpp"
         "src/resourceManagemant.cpp"
+        "src/dataModel/TileType.cpp"
         )
 
 # add definitions

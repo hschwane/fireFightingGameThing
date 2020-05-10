@@ -4,6 +4,7 @@
 #include "contentCreation/MapEditor.h"
 #include "MouseController.h"
 #include "gameState.h"
+#include "resourceManagement.h"
 
 void addGeneralKeys()
 {

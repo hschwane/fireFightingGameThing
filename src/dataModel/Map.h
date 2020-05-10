@@ -19,7 +19,7 @@
 #include <mpUtils/mpUtils.h>
 #include <mpUtils/mpGraphics.h>
 #include "TileType.h"
-#include "defaultElements.h"
+#include "buildinElements.h"
 //--------------------
 
 //-------------------------------------------------------------------
@@ -32,7 +32,7 @@ class Map
 {
 public:
 
-    Map(glm::ivec2 size = {10,10}, const TileType& defaultTile = ttNone());
+    explicit Map(glm::ivec2 size = {10,10}, const TileType& defaultTile = *noneTile());
 
     // iterate
     void forEachTile(std::function<void(Map&, const glm::ivec2&)> func); //!< executes func on every tile of the map

@@ -31,26 +31,37 @@ class TileType
 {
 public:
     //!< create a new tile type using a texture sprite
-    TileType(std::string refName, mpu::gph::Sprite2D displaySprite)
-        : m_name(std::move(refName)), m_sprite(std::move(displaySprite)) {}
+    TileType(std::string refName, std::shared_ptr<mpu::gph::Sprite2D> displaySprite)
+        : m_displayName(std::move(refName)), m_spriteResource(std::move(displaySprite))
+        {
+            assert_critical(m_spriteResource,"TileType", "Constructing TileType from nullptr sprite!");
+        }
 
-    //!< loads a tile type from a configuration file
-    static TileType loadFromFile(const std::string& file)
-    {
-        // TODO:fixme
-//        mpu::CfgFile cfg(file);
-//        std::string name = cfg.getValue<std::string>("Tile","name");
-//        std::string spritePath = cfg.getValue<std::string>("Tile","sprite");
-//        return TileType(name,mpu::gph::Sprite2D(PROJECT_RESOURCE_PATH"data/core/sprites/"+ spritePath));
-    }
-
-    const std::string& getName() const {return m_name;} //!< the name of this tile type in the user interface
-    const mpu::gph::Sprite2D& getSprite() const {return m_sprite;} //!< the sprite that this tile uses for rendering
+    const std::string& getName() const {return m_displayName;} //!< the name of this tile type in the user interface
+    const mpu::gph::Sprite2D& getSprite() const {return *m_spriteResource;} //!< the sprite that this tile uses for rendering
 
 private:
-    // data
-    std::string m_name;
-    mpu::gph::Sprite2D m_sprite;
+    std::string m_displayName;
+    std::shared_ptr<mpu::gph::Sprite2D> m_spriteResource;
+};
+
+//-------------------------------------------------------------------
+// helper functions to load and store tiles
+/**
+ * class TileData
+ * @brief stores all data from a .tile file and can read from a string / store into a string
+ *          errors during parsing will throw an exception
+ */
+class TileData
+{
+public:
+    TileData() = default;
+    explicit TileData(const std::string& toml);
+    toml::value toToml();
+
+    std::string displayName;
+    std::string contentPack;
+    std::string spriteFilename;
 };
 
 #endif //FIREFIGHTINGGAMETHING_TILETYPE_H

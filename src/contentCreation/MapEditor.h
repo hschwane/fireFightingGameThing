@@ -18,6 +18,7 @@
 //--------------------
 #include "dataModel/Map.h"
 #include "gameState.h"
+#include "resourceManagement.h"
 //--------------------
 
 //-------------------------------------------------------------------
@@ -42,8 +43,7 @@ private:
 
 private:
 
-    std::vector<TileType> m_loadedTiles;
-    std::vector<std::reference_wrapper<TileType>> m_activeTiles;
+    std::vector<std::shared_ptr<TileType>> m_activeTiles;
     int m_selectedTile{0};
 
     mpu::gph::Sprite2D m_tileSelectionPreview;

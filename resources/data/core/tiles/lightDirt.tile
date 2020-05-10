@@ -1,4 +1,4 @@
 [Tile]
 displayName = "light dirt"
 contentPack = "core"
-sprite = "light.sprite"
+sprite = "lightDirt.sprite"
