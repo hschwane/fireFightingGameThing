@@ -44,6 +44,9 @@ private:
 
     mpu::gph::Camera2D m_playerCamera; //!< camera with which the player looks at the world
     std::unique_ptr<Operation> m_currentOperation;
+
+    const RootedObject* m_currentlyHoveredObject{nullptr};
+    const TileType* m_currentlyHoveredTileType{nullptr};
 };
 
 

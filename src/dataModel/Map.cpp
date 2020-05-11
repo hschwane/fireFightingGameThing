@@ -95,6 +95,7 @@ void Map::setRootedObject(const glm::ivec2& id, RootedObject& robj)
     //TODO: right now only single tile objects are supported
     m_rootedObjects[getTileId(id)] = &robj;
 }
+
 void Map::removeRootedObject(const glm::ivec2& id)
 {
     logDEBUG("Map") << "Removed rooted object from tile " << glm::to_string(id);
@@ -108,4 +109,9 @@ void Map::removeRootedObject(const glm::ivec2& id)
 
     //TODO: right now only single tile objects are supported
     m_rootedObjects[getTileId(id)] = nullptr;
+}
+
+bool Map::isValid(glm::ivec2 tile) const
+{
+    return (tile.x > 0) && (tile.y > 0) && (tile.x < m_size.x) && (tile.y < m_size.y);
 }

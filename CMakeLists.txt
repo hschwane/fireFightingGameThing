@@ -109,9 +109,8 @@ target_compile_definitions(fireFightingGameThing PRIVATE "FFGT_VERSION_SHA=\"${V
 # set -Wa,-I for resources search path
 target_compile_options(fireFightingGameThing PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-Wa,-I${CMAKE_SOURCE_DIR},-I${CMAKE_SOURCE_DIR}/resources,-I${CMAKE_SOURCE_DIR}/shader>)
 
-
-
-
-
+#target_compile_options(fireFightingGameThing PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-fno-schedule-insns2>)
+#set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=thread")
+#set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=thread")
 
 

@@ -47,7 +47,17 @@ void FreePlay::onDeactivation()
 
 void FreePlay::handleImGui()
 {
-
+    if(m_currentlyHoveredObject)
+    {
+        ImGui::BeginTooltip();
+        ImGui::Text("%s", m_currentlyHoveredObject->getType().getName().c_str());
+        ImGui::EndTooltip();
+    } else if(m_currentlyHoveredTileType)
+    {
+        ImGui::BeginTooltip();
+        ImGui::Text("%s", m_currentlyHoveredTileType->getName().c_str());
+        ImGui::EndTooltip();
+    }
 }
 
 void FreePlay::update(MouseController& mc)
@@ -56,6 +66,24 @@ void FreePlay::update(MouseController& mc)
     m_playerCamera.moveX(mc.getCameraMovement().x);
     m_playerCamera.moveY(mc.getCameraMovement().y);
     m_playerCamera.update();
+
+    // get some information on whatever is hovered
+    const Map& currentMap = m_currentOperation->getMap();
+    glm::uvec2 hoveredTile = Map::tileAtWorld(mc.getMousePosWorld());
+    if(currentMap.isValid(hoveredTile))
+    {
+        m_currentlyHoveredObject = m_currentOperation->getMap().getRootedObject(hoveredTile);
+        m_currentlyHoveredTileType = &m_currentOperation->getMap().getTileType(hoveredTile);
+    } else
+    {
+        m_currentlyHoveredObject = nullptr;
+        m_currentlyHoveredTileType = nullptr;
+    }
+
+
+
+//    const TileType* hoveredTileType = &m_currentOperation->getMap().getTileType(hoveredTile);
+//    if()
 
     m_currentOperation->handlePlayerInput();
     m_currentOperation->update();
