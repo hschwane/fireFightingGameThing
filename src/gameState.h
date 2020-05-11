@@ -25,7 +25,8 @@ enum class GameState
 {
 //    splash,
 //    mainMenue,
-    mapEditor
+    mapEditor,
+    freePlay
 };
 
 // create alias for game state machine

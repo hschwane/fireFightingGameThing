@@ -19,7 +19,7 @@
 #include "dataModel/Map.h"
 //--------------------
 
-void drawMap(mpu::gph::Renderer2D& renderer, const Map& mapToDraw)
+inline void drawMap(mpu::gph::Renderer2D& renderer, const Map& mapToDraw)
 {
     mapToDraw.forEachTile([&](const Map& m, const glm::uvec2& id )
     {

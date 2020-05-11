@@ -35,7 +35,6 @@ public:
     MapEditor();
     ~MapEditor() override =default;
 
-private:
     void onActivation() override;
     void onDeactivation() override;
     void handleImGui() override;

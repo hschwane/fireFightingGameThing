@@ -62,6 +62,8 @@ target_sources(fireFightingGameThing PRIVATE
         "src/dataModel/RootedObjectType.cpp"
         "src/dataModel/Map.cpp"
         "src/gameElements/RootedObject.cpp"
+        "src/gameplay/Operation.cpp"
+        "src/gameplay/FreePlay.cpp"
         )
 
 # add definitions

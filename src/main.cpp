@@ -5,6 +5,7 @@
 #include "MouseController.h"
 #include "gameState.h"
 #include "resourceManagement.h"
+#include "gameplay/FreePlay.h"
 
 void addGeneralKeys()
 {
@@ -65,7 +66,8 @@ int main()
     // setup scenes and scene manager
     GameStateManager gameStateMngr;
     gameStateMngr.createState<MapEditor>(GameState::mapEditor);
-    gameStateMngr.switchState(GameState::mapEditor);
+    gameStateMngr.createState<FreePlay>(GameState::freePlay);
+    gameStateMngr.switchState(GameState::freePlay);
 
     // start main loop
     while(wnd.frameEnd(), Input::update(), wnd.frameBegin())
