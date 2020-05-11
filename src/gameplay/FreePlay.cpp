@@ -29,13 +29,13 @@ FreePlay::FreePlay()
 
 void FreePlay::onActivation()
 {
-     // start a new game by launching a demo operation
-     m_currentOperation = Operation::makeDemoOperation();
+    // start a new game by launching a demo operation
+    m_currentOperation = Operation::makeDemoOperation();
 
-     // set camera to the center of the map
-     glm::vec2 camPos = m_currentOperation->getMap().getSize()*0.5;
-     m_playerCamera.setPosition(camPos);
-     m_playerCamera.setZoom(0.2);
+    // set camera to the center of the map
+    glm::vec2 camPos = (m_currentOperation->getMap().getSize() - glm::ivec2(1)) * 0.5;
+    m_playerCamera.setPosition(camPos);
+    m_playerCamera.setZoom(0.18);
 }
 
 void FreePlay::onDeactivation()
