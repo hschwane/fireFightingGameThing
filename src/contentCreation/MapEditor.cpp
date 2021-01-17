@@ -31,7 +31,8 @@ MapEditor::MapEditor()
     addKeybindings();
 
     m_activeTiles.emplace_back( noneTile() );
-    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/water.tile") );
+    m_activeTiles.emplace_back(getRM().load<TileType>("core/tiles/water.tile"));
+    m_activeTiles.emplace_back(getRM().load<TileType>("core/tiles/grass.tile"));
 
     activeMap = Map({100,100}, *m_activeTiles[0]);
 
