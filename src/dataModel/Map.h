@@ -45,24 +45,37 @@ public:
     void forEachTile(std::function<void(Map&, const glm::ivec2&)> func); //!< executes func on every tile of the map
     void forEachTile(
             std::function<void(const Map&, const glm::ivec2&)> func) const; //!< executes func on every tile of the map
-    void forEachTileInRect(const glm::vec2& posA, const glm::vec2& posB, std::function<void(Map&,
-                                                                                            const glm::ivec2&)> func); //!< executes func on every tile of the map
-    void forEachTileInRect(const glm::vec2& posA, const glm::vec2& posB, std::function<void(const Map&,
-                                                                                            const glm::ivec2&)> func) const; //!< executes func on every tile of the map
+    void forEachTileInRect(const glm::vec2& posA, const glm::vec2& posB,
+                           std::function<void(Map&,
+                                              const glm::ivec2&)> func); //!< executes func on every tile in the rectangle
+    void forEachTileInRect(const glm::vec2& posA, const glm::vec2& posB,
+                           std::function<void(const Map&,
+                                              const glm::ivec2&)> func) const; //!< executes func on every tile in the rectangle
 
     // changing and reading the map
-    void setTileType(const glm::ivec2& id, const TileType& type); //!< set type for tile at id
+    void setTile(const glm::ivec2& id, const TileType& type, int variant = 0); //!< set type for tile at id
     const TileType& getTileType(const glm::ivec2& id) const
     {
-        return m_tileTypes[getTileId(id)];
+        return *m_tileTypes[getTileId(id)];
     } //!< returns the tile type at id
-    void setRootedObject(const glm::ivec2& id, RootedObject& robj); //!< places a rooted object. if an object already exists on that space an error is printed in the log
+    int getTileVariant(const glm::ivec2& id) const
+    {
+        return m_tileVariants[getTileId(id)];
+    }  //!< returns tile variant at id
+    void setRootedObject(const glm::ivec2& id,
+                         RootedObject& robj); //!< places a rooted object. if an object already exists on that space an error is printed in the log
     void removeRootedObject(const glm::ivec2& id); //!< remove a rooted object from tile id
-    RootedObject* getRootedObject(const glm::ivec2& id) {return m_rootedObjects[getTileId(id)];}  //!< access a rooted object on tile id
-    const RootedObject* getRootedObject(const glm::ivec2& id) const {return m_rootedObjects[getTileId(id)];}  //!< access a rooted object on tile id
+    RootedObject* getRootedObject(const glm::ivec2& id)
+    {
+        return m_rootedObjects[getTileId(id)];
+    }  //!< access a rooted object on tile id
+    const RootedObject* getRootedObject(const glm::ivec2& id) const
+    {
+        return m_rootedObjects[getTileId(id)];
+    }  //!< access a rooted object on tile id
 
     // map properties
-    glm::ivec2 getSize() const {return  m_size;} //!< returns size of the map
+    glm::ivec2 getSize() const { return m_size; } //!< returns size of the map
 
 private:
     // some internal helper functions
@@ -74,7 +87,8 @@ private:
     unsigned int m_length;
 
     // data for every tile
-    std::vector<std::reference_wrapper<const TileType>> m_tileTypes; //!< every tile has a type
+    std::vector<const TileType*> m_tileTypes; //!< every tile has a type
+    std::vector<int> m_tileVariants; //!< tiles can have different variations
     std::vector<RootedObject*> m_rootedObjects; //!< every tile can have one or zero rooted object
 };
 

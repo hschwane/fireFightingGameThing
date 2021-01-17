@@ -20,6 +20,8 @@
 #include "gameState.h"
 #include "resourceManagement.h"
 #include <gameElements/RootedObject.h>
+
+#include <random>
 //--------------------
 
 //-------------------------------------------------------------------
@@ -58,6 +60,7 @@ private:
     glm::vec2 selectionStart;
     bool selecting = false;
 
+    std::default_random_engine rng;
 };
 
 

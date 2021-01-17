@@ -30,19 +30,40 @@
 class TileType
 {
 public:
-    //!< create a new tile type using a texture sprite
-    TileType(std::string refName, std::shared_ptr<mpu::gph::Sprite2D> displaySprite)
-        : m_displayName(std::move(refName)), m_spriteResource(std::move(displaySprite))
-        {
-            assert_critical(m_spriteResource,"TileType", "Constructing TileType from nullptr sprite!");
-        }
+    //!< create a new tile type using textures
+    TileType(std::string refName, std::vector<std::shared_ptr<mpu::gph::Sprite2D>> spriteVariants,
+             std::vector<std::shared_ptr<mpu::gph::Sprite2D>> spriteTransitions, float precedence)
+            : m_displayName(std::move(refName)), m_spriteVariants(std::move(spriteVariants)),
+              m_spriteTransitions(std::move(spriteTransitions)), m_precedence(precedence)
+    {
+        for(const auto& ptr : m_spriteVariants)
+            assert_critical(ptr, "TileType", "Constructing TileType" + refName + "from nullptr sprite!");
+        for(const auto& ptr : m_spriteTransitions)
+            assert_critical(ptr, "TileType", "Constructing TileType" + refName + " from nullptr sprite!");
+    }
 
-    const std::string& getName() const {return m_displayName;} //!< the name of this tile type in the user interface
-    const mpu::gph::Sprite2D& getSprite() const {return *m_spriteResource;} //!< the sprite that this tile uses for rendering
+    //!< create a simple tile without variants or transitions
+    TileType(std::string refName, std::shared_ptr<mpu::gph::Sprite2D> displaySprite)
+            : m_displayName(std::move(refName)), m_precedence(0)
+    {
+        assert_critical(displaySprite, "TileType", "Constructing TileType from nullptr sprite!");
+        m_spriteVariants.push_back(displaySprite);
+    }
+
+    const std::string& getName() const { return m_displayName; } //!< the name of this tile type in the user interface
+    int getNumVariants() const { return m_spriteVariants.size(); } //!< the number of different variants of this tile
+    const mpu::gph::Sprite2D&
+    getSprite(int i) const { return *m_spriteVariants[i]; } //!< the sprite that this tile uses for rendering
+    const mpu::gph::Sprite2D&
+    getTransition(int i) const { *m_spriteTransitions[i]; } //!< returns the transitional sprite
+    float
+    getPrecedence() const { return m_precedence; } //!< tiles with higher precedence are displayed on top in transitions
 
 private:
-    std::string m_displayName;
-    std::shared_ptr<mpu::gph::Sprite2D> m_spriteResource;
+    std::string m_displayName; //!< the name of the tile as displayed in the ui
+    std::vector<std::shared_ptr<mpu::gph::Sprite2D>> m_spriteVariants; //!< list of sprites for randomization
+    std::vector<std::shared_ptr<mpu::gph::Sprite2D>> m_spriteTransitions; //!< transitional sprites#
+    float m_precedence; //!< tiles with higher precedence are displayed on top in transitions
 };
 
 //-------------------------------------------------------------------
@@ -61,7 +82,9 @@ public:
 
     std::string displayName;
     std::string contentPack;
-    std::string spriteFilename;
+    std::vector<std::string> spriteFilenames;
+    std::vector<std::string> transitionFilenames;
+    float precedence;
 };
 
 #endif //FIREFIGHTINGGAMETHING_TILETYPE_H

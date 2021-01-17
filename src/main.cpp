@@ -67,7 +67,7 @@ int main()
     GameStateManager gameStateMngr;
     gameStateMngr.createState<MapEditor>(GameState::mapEditor);
     gameStateMngr.createState<FreePlay>(GameState::freePlay);
-    gameStateMngr.switchState(GameState::freePlay);
+    gameStateMngr.switchState(GameState::mapEditor);
 
     // start main loop
     while(wnd.frameEnd(), Input::update(), wnd.frameBegin())

@@ -23,7 +23,8 @@ inline void drawMap(mpu::gph::Renderer2D& renderer, const Map& mapToDraw)
 {
     mapToDraw.forEachTile([&](const Map& m, const glm::uvec2& id )
     {
-        renderer.addSprite(m.getTileType(id).getSprite(), glm::translate(glm::vec3({id, 0})), MAP_LAYER);
+        int v = m.getTileVariant(id);
+        renderer.addSprite(m.getTileType(id).getSprite(v), glm::translate(glm::vec3({id, 0})), MAP_LAYER);
 
         const RootedObject* robj = m.getRootedObject(id);
         if(robj && robj->getRootTile() == id)

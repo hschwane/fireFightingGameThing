@@ -1,8 +1,8 @@
 [Sprite]
-displayName = "grass"
+displayName = "water_1"
 spritesheet = ""
-texture="core/images/grasTile.png"
-rectInImage=[0,0,32,32]
+texture = "core/images/water_1.png"
+rectInImage = [0,0,32,32]
 semitransparent=false
 worldSize=[1.0,1.0]
 pivot=[0.0,0.0]

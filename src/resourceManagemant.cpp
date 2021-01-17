@@ -20,13 +20,24 @@
 std::unique_ptr<TileData> preloadTile(mpu::gph::Sprite2DRC* sprtc, const std::string& data)
 {
     auto tileData = std::make_unique<TileData>(data);
-    sprtc->preload(tileData->contentPack + "/sprites/" + tileData->spriteFilename);
+    for(const auto& filename : tileData->spriteFilenames)
+        sprtc->preload(tileData->contentPack + "/sprites/" + filename);
+    for(const auto& filename : tileData->transitionFilenames)
+        sprtc->preload(tileData->contentPack + "/sprites/" + filename);
     return tileData;
 }
 
 std::unique_ptr<TileType> finalLoadTile(mpu::gph::Sprite2DRC* sprtc, std::unique_ptr<TileData> pd)
 {
-    return std::make_unique<TileType>(pd->displayName, sprtc->load(pd->contentPack + "/sprites/" + pd->spriteFilename) );
+    std::vector<std::shared_ptr<mpu::gph::Sprite2D>> spriteVariants;
+    std::vector<std::shared_ptr<mpu::gph::Sprite2D>> spriteTransitions;
+
+    for(const auto& filename : pd->spriteFilenames)
+        spriteVariants.emplace_back(sprtc->load(pd->contentPack + "/sprites/" + filename));
+    for(const auto& filename : pd->transitionFilenames)
+        spriteTransitions.emplace_back(sprtc->load(pd->contentPack + "/sprites/" + filename));
+
+    return std::make_unique<TileType>(pd->displayName, spriteVariants, spriteTransitions, pd->precedence);
 }
 
 ResourceManagerType& getRM()
@@ -50,7 +61,7 @@ ResourceManagerType& getRM()
              PROJECT_RESOURCE_PATH "data/", makeMissingTile(), "Tile"}
              );
 
-    // populate the pointers for dynamic dependencies, only once
+    // populate the pointers for recursive dependencies, only once
     [[maybe_unused]] static bool once = [&]()
             {
                 imgrc = &resourceManager.get<mpu::Image8>();

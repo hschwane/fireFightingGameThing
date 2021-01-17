@@ -1,4 +1,5 @@
 [Tile]
 displayName = "water"
 contentPack = "core"
-sprite = "water.sprite"
+sprites = ["water_0.sprite","water_1.sprite","water_2.sprite","water_3.sprite","water_4.sprite"]
+precedence = 0.0

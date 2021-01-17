@@ -21,8 +21,9 @@
 // function definitions of the MapEditor class
 //-------------------------------------------------------------------
 MapEditor::MapEditor()
-    : m_camera({0,0},1.0,"EditorCamera"),
-      m_tileSelectionPreview(PROJECT_RESOURCE_PATH"data/default/tileSelection.png")
+    : m_camera({0, 0}, 1.0, "EditorCamera"),
+      m_tileSelectionPreview(PROJECT_RESOURCE_PATH"data/default/tileSelection.png"),
+      rng(mpu::getRanndomSeed())
 
 {
     // setup input handling
@@ -30,19 +31,7 @@ MapEditor::MapEditor()
     addKeybindings();
 
     m_activeTiles.emplace_back( noneTile() );
-    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/concrete.tile") );
-    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/grass.tile") );
-    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/lightDirt.tile") );
     m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/water.tile") );
-    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/asphalt.tile") );
-    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/brick.tile") );
-    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/brick2.tile") );
-    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/soil.tile") );
-    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/soil2.tile") );
-    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/stone.tile") );
-    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/stone2.tile") );
-    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/woodFloor.tile") );
-    m_activeTiles.emplace_back( getRM().load<TileType>("core/tiles/woodFloor2.tile") );
 
     activeMap = Map({100,100}, *m_activeTiles[0]);
 
@@ -74,7 +63,7 @@ void MapEditor::handleImGui()
             if(ImGui::Selectable("##", m_selectedTile == i, 0, ImVec2(0, previewSize)))
                 m_selectedTile = i;
             ImGui::SameLine();
-            ImGui::Image((void*)(intptr_t)static_cast<GLuint>(m_activeTiles[i].get()->getSprite().getTexture()),
+            ImGui::Image((void*)(intptr_t)static_cast<GLuint>(m_activeTiles[i].get()->getSprite(0).getTexture()),
                          ImVec2(previewSize, previewSize));
             ImGui::SameLine();
             ImGui::Text("%s", m_activeTiles[i].get()->getName().c_str());
@@ -91,7 +80,8 @@ void MapEditor::update(MouseController& mc)
     {
         activeMap.forEachTileInRect(mc.selctionBeginPos(), mc.selectionEndPos(), [this](Map& map, const glm::uvec2& tile)
         {
-            map.setTileType(tile,*m_activeTiles[m_selectedTile]);
+            std::uniform_int_distribution dist(0, m_activeTiles[m_selectedTile]->getNumVariants() - 1);
+            map.setTile(tile, *m_activeTiles[m_selectedTile], dist(rng));
         });
     }
 

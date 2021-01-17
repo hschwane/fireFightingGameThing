@@ -19,7 +19,8 @@
 Map::Map(glm::ivec2 size, const TileType& defaultTile )
         : m_size(size), m_length(size.x*size.y)
 {
-    m_tileTypes.resize(m_length, defaultTile);
+    m_tileTypes.resize(m_length, &defaultTile);
+    m_tileVariants.resize(m_length, 0);
     m_rootedObjects.resize(m_length, nullptr);
 }
 
@@ -70,9 +71,11 @@ void Map::forEachTileInRect(const glm::vec2& posA, const glm::vec2& posB,
         }
 }
 
-void Map::setTileType(const glm::ivec2& id, const TileType& type)
+void Map::setTile(const glm::ivec2& id, const TileType& type, int variant)
 {
-    m_tileTypes[getTileId(id)] = type;
+    int i = getTileId(id);
+    m_tileTypes[i] = &type;
+    m_tileVariants[i] = glm::max(0, glm::min(type.getNumVariants(), variant));
 }
 
 unsigned int Map::getTileId(const glm::ivec2&  id2d) const

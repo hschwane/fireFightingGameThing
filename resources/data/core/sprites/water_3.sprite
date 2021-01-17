@@ -1,8 +1,8 @@
 [Sprite]
-displayName = "light soil"
+displayName = "water_3(plant)"
 spritesheet = ""
-texture="core/images/soil2Tile.png"
-rectInImage=[0,0,32,32]
+texture = "core/images/water_3.png"
+rectInImage = [0,0,32,32]
 semitransparent=false
 worldSize=[1.0,1.0]
 pivot=[0.0,0.0]
