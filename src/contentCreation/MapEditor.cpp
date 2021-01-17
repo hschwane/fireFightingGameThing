@@ -23,7 +23,7 @@
 MapEditor::MapEditor()
     : m_camera({0, 0}, 1.0, "EditorCamera"),
       m_tileSelectionPreview(PROJECT_RESOURCE_PATH"data/default/tileSelection.png"),
-      rng(mpu::getRanndomSeed())
+      rng(mpu::getRanndomSeed()), dist(0, 1)
 
 {
     // setup input handling
@@ -80,8 +80,7 @@ void MapEditor::update(MouseController& mc)
     {
         activeMap.forEachTileInRect(mc.selctionBeginPos(), mc.selectionEndPos(), [this](Map& map, const glm::uvec2& tile)
         {
-            std::uniform_int_distribution dist(0, m_activeTiles[m_selectedTile]->getNumVariants() - 1);
-            map.setTile(tile, *m_activeTiles[m_selectedTile], dist(rng));
+            map.setTile(tile, *m_activeTiles[m_selectedTile], m_activeTiles[m_selectedTile]->selectVariant(dist(rng)));
         });
     }
 

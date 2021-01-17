@@ -2,4 +2,5 @@
 displayName = "water"
 contentPack = "core"
 sprites = ["water_0.sprite","water_1.sprite","water_2.sprite","water_3.sprite","water_4.sprite"]
+frequencies = [0.3,0.3,0.05,0.05,0.3]
 precedence = 0.0

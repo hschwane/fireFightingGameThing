@@ -32,9 +32,11 @@ class TileType
 public:
     //!< create a new tile type using textures
     TileType(std::string refName, std::vector<std::shared_ptr<mpu::gph::Sprite2D>> spriteVariants,
-             std::vector<std::shared_ptr<mpu::gph::Sprite2D>> spriteTransitions, float precedence)
-            : m_displayName(std::move(refName)), m_spriteVariants(std::move(spriteVariants)),
-              m_spriteTransitions(std::move(spriteTransitions)), m_precedence(precedence)
+             std::vector<float> frequencies, std::vector<std::shared_ptr<mpu::gph::Sprite2D>> spriteTransitions,
+             float precedence)
+            : m_displayName(std::move(refName)), m_spriteVariants(spriteVariants),
+              m_frequencies(frequencies), m_spriteTransitions(spriteTransitions),
+              m_precedence(precedence)
     {
         for(const auto& ptr : m_spriteVariants)
             assert_critical(ptr, "TileType", "Constructing TileType" + refName + "from nullptr sprite!");
@@ -48,10 +50,12 @@ public:
     {
         assert_critical(displaySprite, "TileType", "Constructing TileType from nullptr sprite!");
         m_spriteVariants.push_back(displaySprite);
+        m_frequencies.push_back(1.0);
     }
 
     const std::string& getName() const { return m_displayName; } //!< the name of this tile type in the user interface
     int getNumVariants() const { return m_spriteVariants.size(); } //!< the number of different variants of this tile
+    int selectVariant(float r) const; //!< pass random number to select a variant according to frequency
     const mpu::gph::Sprite2D&
     getSprite(int i) const { return *m_spriteVariants[i]; } //!< the sprite that this tile uses for rendering
     const mpu::gph::Sprite2D&
@@ -62,6 +66,7 @@ public:
 private:
     std::string m_displayName; //!< the name of the tile as displayed in the ui
     std::vector<std::shared_ptr<mpu::gph::Sprite2D>> m_spriteVariants; //!< list of sprites for randomization
+    std::vector<float> m_frequencies; //!< frequencies of the different tile variants
     std::vector<std::shared_ptr<mpu::gph::Sprite2D>> m_spriteTransitions; //!< transitional sprites#
     float m_precedence; //!< tiles with higher precedence are displayed on top in transitions
 };
@@ -83,6 +88,7 @@ public:
     std::string displayName;
     std::string contentPack;
     std::vector<std::string> spriteFilenames;
+    std::vector<float> frequencies;
     std::vector<std::string> transitionFilenames;
     float precedence;
 };

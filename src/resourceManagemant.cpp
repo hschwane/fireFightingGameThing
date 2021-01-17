@@ -37,7 +37,8 @@ std::unique_ptr<TileType> finalLoadTile(mpu::gph::Sprite2DRC* sprtc, std::unique
     for(const auto& filename : pd->transitionFilenames)
         spriteTransitions.emplace_back(sprtc->load(pd->contentPack + "/sprites/" + filename));
 
-    return std::make_unique<TileType>(pd->displayName, spriteVariants, spriteTransitions, pd->precedence);
+    return std::make_unique<TileType>(pd->displayName, spriteVariants, pd->frequencies, spriteTransitions,
+                                      pd->precedence);
 }
 
 ResourceManagerType& getRM()

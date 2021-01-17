@@ -61,6 +61,7 @@ private:
     bool selecting = false;
 
     std::default_random_engine rng;
+    std::uniform_real_distribution<float> dist;
 };
 
 
