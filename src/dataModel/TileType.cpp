@@ -36,6 +36,12 @@ TileData::TileData(const std::string& toml)
     contentPack = toml::find<std::string>(tile, "contentPack");
     spriteFilenames = toml::find<std::vector<std::string>>(tile, "sprites");
     transitionFilenames = toml::find_or<std::vector<std::string>>(tile, "transitions", std::vector<std::string>());
+
+    for(const auto& item : transitionFilenames)
+    {
+        std::cout << item << std::endl;
+    }
+
     frequencies = toml::find_or<std::vector<float>>(tile, "frequencies",
                                                     std::vector<float>(transitionFilenames.size(),
                                                                        1.0 / transitionFilenames.size()));

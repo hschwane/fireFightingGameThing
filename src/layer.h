@@ -11,7 +11,8 @@
 #ifndef FIREFIGHTINGGAMETHING_LAYER_H
 #define FIREFIGHTINGGAMETHING_LAYER_H
 
-constexpr int MAP_LAYER = 10;
-constexpr int ROOTED_OBJECT_LAYER = 9;
+constexpr float MAP_LAYER = 10;
+constexpr float TRANSITION_LAYER = 9;
+constexpr float ROOTED_OBJECT_LAYER = 8;
 
 #endif //FIREFIGHTINGGAMETHING_LAYER_H

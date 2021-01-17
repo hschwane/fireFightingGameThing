@@ -116,5 +116,5 @@ void Map::removeRootedObject(const glm::ivec2& id)
 
 bool Map::isValid(glm::ivec2 tile) const
 {
-    return (tile.x > 0) && (tile.y > 0) && (tile.x < m_size.x) && (tile.y < m_size.y);
+    return (tile.x >= 0) && (tile.y >= 0) && (tile.x < m_size.x) && (tile.y < m_size.y);
 }

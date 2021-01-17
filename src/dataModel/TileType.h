@@ -60,8 +60,9 @@ public:
     getSprite(int i) const { return *m_spriteVariants[i]; } //!< the sprite that this tile uses for rendering
     const mpu::gph::Sprite2D&
     getTransition(int i) const { *m_spriteTransitions[i]; } //!< returns the transitional sprite
+    bool hasTransitions() const { return !m_spriteTransitions.empty(); } //!< chack if transitions are available
     float
-    getPrecedence() const { return m_precedence; } //!< tiles with higher precedence are displayed on top in transitions
+    getPrecedence() const { return m_precedence; } //!< [0,1)tiles with higher precedence are displayed on top in transitions
 
 private:
     std::string m_displayName; //!< the name of the tile as displayed in the ui

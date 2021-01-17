@@ -1,6 +1,10 @@
 [Tile]
-displayName = "geass"
+displayName = "grass"
 contentPack = "core"
 sprites = ["grass_0.sprite","grass_1.sprite","grass_2.sprite","grass_3.sprite","grass_4.sprite"]
 frequencies = [0.3,0.3,0.3,0.05,0.05]
-precedence = 0.0
+transitions = ["grass_e1.sprite","grass_e2.sprite","grass_e3.sprite","grass_e4.sprite",
+              "grass_e5.sprite","grass_e6.sprite","grass_e7.sprite","grass_e8.sprite",
+              "grass_e9.sprite","grass_e10.sprite","grass_e11.sprite","grass_e12.sprite",
+              "grass_e13.sprite","grass_e14.sprite","grass_e15.sprite"]
+precedence = 0.1
