@@ -33,7 +33,6 @@
 class Map
 {
 public:
-
     // construction
     explicit Map(glm::ivec2 size = {10, 10}, const TileType& defaultTile = *noneTile());
 
@@ -43,14 +42,9 @@ public:
 
     // iterate
     void forEachTile(std::function<void(Map&, const glm::ivec2&)> func); //!< executes func on every tile of the map
-    void forEachTile(
-            std::function<void(const Map&, const glm::ivec2&)> func) const; //!< executes func on every tile of the map
-    void forEachTileInRect(const glm::vec2& posA, const glm::vec2& posB,
-                           std::function<void(Map&,
-                                              const glm::ivec2&)> func); //!< executes func on every tile in the rectangle
-    void forEachTileInRect(const glm::vec2& posA, const glm::vec2& posB,
-                           std::function<void(const Map&,
-                                              const glm::ivec2&)> func) const; //!< executes func on every tile in the rectangle
+    void forEachTile(std::function<void(const Map&, const glm::ivec2&)> func) const; //!< executes func on every tile of the map
+    void forEachTileInRect(const glm::vec2& posA, const glm::vec2& posB,std::function<void(Map&,const glm::ivec2&)> func); //!< executes func on every tile in the rectangle
+    void forEachTileInRect(const glm::vec2& posA, const glm::vec2& posB,std::function<void(const Map&,const glm::ivec2&)> func) const; //!< executes func on every tile in the rectangle
 
     // changing and reading the map
     void setTile(const glm::ivec2& id, const TileType& type, int variant = 0); //!< set type for tile at id
@@ -62,8 +56,7 @@ public:
     {
         return m_tileVariants[getTileId(id)];
     }  //!< returns tile variant at id
-    void setRootedObject(const glm::ivec2& id,
-                         RootedObject& robj); //!< places a rooted object. if an object already exists on that space an error is printed in the log
+    void setRootedObject(const glm::ivec2& id,RootedObject& robj); //!< places a rooted object. if an object already exists on that space an error is printed in the log
     void removeRootedObject(const glm::ivec2& id); //!< remove a rooted object from tile id
     RootedObject* getRootedObject(const glm::ivec2& id)
     {

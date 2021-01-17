@@ -43,8 +43,7 @@ TileData::TileData(const std::string& toml)
     }
 
     frequencies = toml::find_or<std::vector<float>>(tile, "frequencies",
-                                                    std::vector<float>(transitionFilenames.size(),
-                                                                       1.0 / transitionFilenames.size()));
+            std::vector<float>(transitionFilenames.size(),1.0 / transitionFilenames.size()));
     precedence = toml::find<float>(tile, "precedence");
 }
 
