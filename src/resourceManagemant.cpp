@@ -33,9 +33,9 @@ std::unique_ptr<TileType> finalLoadTile(mpu::gph::Sprite2DRC* sprtc, std::unique
     std::vector<std::shared_ptr<mpu::gph::Sprite2D>> spriteTransitions;
 
     for(const auto& filename : pd->spriteFilenames)
-        spriteVariants.emplace_back(sprtc->load(pd->contentPack + "/sprites/" + filename));
+        spriteVariants.emplace_back(sprtc->load(filename));
     for(const auto& filename : pd->transitionFilenames)
-        spriteTransitions.emplace_back(sprtc->load(pd->contentPack + "/sprites/" + filename));
+        spriteTransitions.emplace_back(sprtc->load(filename));
 
     return std::make_unique<TileType>(pd->displayName, spriteVariants, pd->frequencies, spriteTransitions,
                                       pd->precedence);

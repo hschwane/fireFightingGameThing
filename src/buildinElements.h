@@ -13,7 +13,7 @@
 
 // includes
 //--------------------
-# include "dataModel/TileType.h"
+# include "tilemap/TileType.h"
 //--------------------
 
 /**

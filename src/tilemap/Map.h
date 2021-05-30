@@ -18,7 +18,7 @@
 //--------------------
 #include <mpUtils/mpUtils.h>
 #include <mpUtils/mpGraphics.h>
-#include "dataModel/TileType.h"
+#include "TileType.h"
 #include "buildinElements.h"
 #include "gameElements/RootedObject.h"
 //--------------------

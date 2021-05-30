@@ -11,7 +11,7 @@
 
 // includes
 //--------------------
-#include "dataModel/Map.h"
+#include "Map.h"
 //--------------------
 
 // function definitions of the Map class

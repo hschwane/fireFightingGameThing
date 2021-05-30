@@ -15,7 +15,7 @@
 //--------------------
 #include <mpUtils/mpUtils.h>
 #include <mpUtils/mpGraphics.h>
-#include "dataModel/TileType.h"
+#include "tilemap/TileType.h"
 //--------------------
 
 //-------------------------------------------------------------------
